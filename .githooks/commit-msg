@@ -1,0 +1,19 @@
+#!/bin/bash
+commit_msg=$(cat "$1")
+
+pattern="^(SBN|BUG|DOCS|HOTFIX)-[0-9]+: .+"
+
+if ! echo "$commit_msg" | grep -qE "$pattern"; then
+  echo "❌ ERROR: El mensaje del commit no cumple el formato requerido"
+  echo ""
+  echo "Formato obligatorio:"
+  echo "  SBN-01: Descripción del cambio"
+  echo "  BUG-01: Corrección de error"
+  echo "  HOTFIX-01: Arreglo/Cambio rápido"
+  echo "  DOCS-01: Cambios en documentación"
+  echo ""
+  echo "Tu mensaje: $commit_msg"
+  exit 1
+fi
+
+exit 0
