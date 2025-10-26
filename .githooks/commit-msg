@@ -4,7 +4,7 @@ commit_msg=$(cat "$1")
 pattern="^(SBU|BUG|DOCS|HOTFIX)-[0-9]+: .+"
 
 if ! echo "$commit_msg" | grep -qE "$pattern"; then
-  echo "X ERROR: El mensaje del commit no cumple el formato requerido"
+  echo "ERROR: El mensaje del commit no cumple el formato requerido"
   echo ""
   echo "Formato obligatorio:"
   echo "  SBU-01: Descripción del cambio"
@@ -12,7 +12,7 @@ if ! echo "$commit_msg" | grep -qE "$pattern"; then
   echo "  HOTFIX-01: Arreglo/Cambio rápido"
   echo "  DOCS-01: Cambios en documentación"
   echo ""
-  echo "Tu mensaje: $commit_msg"
+  echo "Tu commit: $commit_msg"
   exit 1
 fi
 
