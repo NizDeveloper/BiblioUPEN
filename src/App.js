@@ -1,13 +1,15 @@
-// import { useEffect, useState } from "react";
-// import axios from "axios";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Index from './pages/index';
+import Books from './pages/book';
 
 function App() {
-  const message = "Hello World!!!"
-
   return (
-    <div style={{ padding: 30 }}>
-      <h1>{ message }</h1>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Index/>} />
+        <Route path="/book" element={<Books/>} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
