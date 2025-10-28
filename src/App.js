@@ -1,13 +1,15 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Index from './pages/index';
-import Books from './pages/book';
+import Home from './pages/Home.jsx';
+import Books from './pages/Books.jsx';
+import Students from './pages/Students';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Index/>} />
-        <Route path="/book" element={<Books/>} />
+        <Route path="/" element={<Home/>} />
+        <Route path="/books" element={<Books/>} />
+        <Route path="/students" element={<Students/> } />
       </Routes>
     </BrowserRouter>
   );

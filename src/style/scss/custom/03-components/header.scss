@@ -1,0 +1,25 @@
+.header{
+  background: linear-gradient(90deg, #ffffff 0%, #f8fffe 100%);
+  border-bottom: 3px solid #2d8659;
+  border-top: none;
+  border-radius: 3px;
+  box-shadow: 0 8px 32px rgba(45, 134, 89, 0.12);
+  position: sticky;
+  top: 0;
+  left: 0;
+
+  .header-content{
+    display: flex;
+    aling-items: center;
+    justify-content: space-between;
+    padding: 15px 30px;
+
+    a{
+      height: 50px;
+      width: auto;
+      .logo{
+        background-color: $white;
+      }
+    }
+  }
+}

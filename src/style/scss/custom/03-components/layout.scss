@@ -1,0 +1,11 @@
+.layout{
+  .layout-container{
+    display: flex;
+    align-items: center;
+
+    .main-content{
+      width: 100%;
+      margin-left: 0;
+    }
+  }
+}

@@ -1,0 +1,79 @@
+/*
+* Limiter Row
+*/
+.limiter-none{
+  padding-left:  0px;
+  padding-right: 0px;
+}
+
+.limiter-small{
+  max-width: 910px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.limiter-medium{
+  max-width: 1044px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.limiter-large{
+  max-width: 1290px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+/*
+* Padding Top Row
+*/
+.padding-top-none{
+  padding-top: 0px;
+}
+
+.padding-top-medium{
+  padding-top: 30px;
+}
+
+.padding-top-large {
+padding-top: 70px;
+}
+
+
+/*
+* Padding Bottom Row
+*/
+.padding-bottom-none{
+  padding-bottom: 0px;
+}
+
+.padding-bottom-medium{
+  padding-bottom: 30px;
+}
+
+.padding-bottom-large {
+  padding-bottom: 70px;
+}
+
+/*
+* Container fluid padding
+*/
+.container-fluid.global{
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+@include media-breakpoint-up(md){
+  .container-fluid.global{
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
+
+@include media-breakpoint-up(lg){
+  .container-fluid.global{
+    padding-left: 90px;
+    padding-right: 90px;
+  }
+}

@@ -298,8 +298,7 @@ $cyans: (
 // fusv-enable
 
 // scss-docs-start theme-color-variables
-// $primary:       #6e06f2 !default;
-$primary:       #2cc9ff !default;
+$primary:       #1d7b3b !default;
 $secondary:     #4e525a !default;
 $success:       $green !default;
 $info:          $cyan !default;
@@ -820,8 +819,8 @@ $input-btn-border-width:      var(--#{$prefix}border-width) !default;
 
 // scss-docs-start btn-variables
 $btn-color:                   var(--#{$prefix}body-color) !default;
-$btn-padding-y:               $input-btn-padding-y !default;
-$btn-padding-x:               $input-btn-padding-x !default;
+$btn-padding-y:               8px !default;
+$btn-padding-x:               15px !default;
 $btn-font-family:             $input-btn-font-family !default;
 $btn-font-size:               $input-btn-font-size !default;
 $btn-line-height:             $input-btn-line-height !default;
