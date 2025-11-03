@@ -1,114 +1,92 @@
-$color-primary: #2d8659;
-$color-primary-dark: #1e5a3f;
-$color-secondary: #f5f5f5;
-$color-text: #333;
-$color-text-light: #666;
-$color-border: #e0e0e0;
-$color-white: #fff;
-
-$spacing-xs: 5px;
-$spacing-sm: 10px;
-$spacing-md: 20px;
-$spacing-lg: 30px;
-$spacing-xl: 40px;
-
 $sidebar-width-expanded: 270px;
 $sidebar-width-collapsed: 80px;
 $header-height: 80px;
 
-$border-radius: 6px;
-$box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-$box-shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.15);
-
-.sidebar {
+.sidebar{
   position: fixed;
   left: 0;
   top: $header-height;
   height: calc(100vh - #{$header-height});
-  background-color: $color-white;
-  border-right: 1px solid $color-border;
+  background-color: $white;
+  border-right: 1px solid $border-color;
   overflow-y: auto;
   overflow-x: hidden;
   box-shadow: $box-shadow;
   transition: width 0.3s ease, padding 0.3s ease;
   z-index: 50;
 
-  // ========== ESTADO EXPANDIDO ==========
-  &.expanded {
+  &.expanded{
     width: $sidebar-width-expanded;
-    padding: $spacing-lg $spacing-md;
+    padding: $spacer * 1.5 $spacer;
 
-    .sidebar-title {
+    .sidebar-title{
       opacity: 1;
       visibility: visible;
       height: auto;
-      margin-bottom: $spacing-lg;
+      margin-bottom: $spacer * 1.5;
     }
 
-    .label {
+    .label{
       opacity: 1;
       visibility: visible;
       display: inline;
-      margin-left: $spacing-md;
+      margin-left: $spacer;
     }
 
-    .toggle-btn {
-      margin-bottom: $spacing-lg;
+    .toggle-btn{
+      margin-bottom: $spacer * 1.5;
       width: 100%;
     }
   }
 
-  // ========== ESTADO CONTRAÍDO ==========
-  &.collapsed {
+  &.collapsed{
     width: $sidebar-width-collapsed;
-    padding: $spacing-md $spacing-sm;
+    padding: $spacer $spacer * 0.5;
 
-    .sidebar-title {
+    .sidebar-title{
       opacity: 0;
       visibility: hidden;
       height: 0;
       margin: 0;
     }
 
-    .label {
+    .label{
       opacity: 0;
       visibility: hidden;
       display: none;
       margin-left: 0;
     }
 
-    .toggle-btn {
-      margin-bottom: $spacing-md;
+    .toggle-btn{
+      margin-bottom: $spacer;
       width: 100%;
     }
 
-    .sidebar-menu li a {
+    .sidebar-menu li a{
       justify-content: center;
-      padding: $spacing-md;
+      padding: $spacer;
     }
   }
 
-  // ========== HEADER DEL SIDEBAR ==========
-  .sidebar-header {
-    margin-bottom: $spacing-lg;
+  .sidebar-header{
+    margin-bottom: $spacer * 1.5;
   }
 
-  .sidebar-title {
-    font-size: 12px;
-    font-weight: 700;
-    color: $color-primary;
+  .sidebar-title{
+    font-size: $font-size-sm;
+    font-weight: $font-weight-bold;
+    color: $secondary;
     text-transform: uppercase;
     letter-spacing: 1px;
-    padding: 0 $spacing-sm;
+    padding: 0 $spacer * 0.5;
     transition: all 0.3s ease;
     white-space: nowrap;
     margin: 0;
   }
 
-  // ========== BOTÓN TOGGLE ==========
-  .toggle-btn {
-    background-color: $color-primary;
-    color: $color-white;
+  .toggle-btn{
+    background-color: $secondary;
+    color: $white;
     border: none;
     height: 45px;
     border-radius: $border-radius;
@@ -120,44 +98,43 @@ $box-shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.15);
     transition: all 0.3s ease;
     flex-shrink: 0;
 
-    &:hover {
-      background-color: $color-primary-dark;
+    &:hover{
+      background-color: shade-color($secondary, 20%);
       transform: scale(1.05);
     }
 
-    &:active {
+    &:active{
       transform: scale(0.95);
     }
   }
 
-  // ========== MENÚ ==========
-  .sidebar-menu {
+  .sidebar-menu{
     list-style: none;
     padding: 0;
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: $spacing-xs;
+    gap: $spacer * 0.25;
 
-    li {
+    li{
       margin: 0;
 
-      a {
+      a{
         display: flex;
         align-items: center;
-        gap: $spacing-md;
-        padding: $spacing-md $spacing-sm;
-        color: $color-text;
+        gap: $spacer;
+        padding: $spacer $spacer * 0.5;
+        color: $body-color;
         text-decoration: none;
-        font-size: 16px;
-        font-weight: 500;
+        font-size: $font-size-base;
+        font-weight: $font-weight-medium;
         border-left: 4px solid transparent;
         border-radius: $border-radius;
         transition: all 0.3s ease;
         cursor: pointer;
         position: relative;
 
-        .icon {
+        .icon{
           width: 30px;
           height: 30px;
           display: flex;
@@ -165,85 +142,38 @@ $box-shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.15);
           justify-content: center;
           flex-shrink: 0;
 
-          svg {
+          svg{
             width: 100%;
             height: 100%;
             transition: fill 0.3s ease;
           }
         }
 
-        .label {
+        .label{
           transition: all 0.3s ease;
           white-space: nowrap;
         }
 
-        // ========== HOVER ==========
-        &:hover {
-          background-color: $color-secondary;
-          color: $color-primary;
-          border-left-color: $color-primary;
+        &:hover{
+          background-color: $gray-100;
+          color: $secondary;
+          border-left-color: $secondary;
 
-          .icon svg {
-            fill: $color-primary;
+          .icon svg{
+            fill: $secondary;
           }
         }
 
-        // ========== ACTIVE ==========
-        &.active {
-          background-color: rgba($color-primary, 0.1);
-          color: $color-primary;
-          border-left-color: $color-primary;
-          font-weight: 600;
+        &.active{
+          background-color: tint-color($secondary, 90%);
+          color: $secondary;
+          border-left-color: $secondary;
+          font-weight: $font-weight-bold;
 
-          .icon svg {
-            fill: $color-primary;
+          .icon svg{
+            fill: $secondary;
           }
         }
-      }
-    }
-  }
-}
-
-// ========== SCROLLBAR PERSONALIZADA ==========
-.sidebar::-webkit-scrollbar {
-  width: 6px;
-}
-
-.sidebar::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.sidebar::-webkit-scrollbar-thumb {
-  background: $color-border;
-  border-radius: 3px;
-
-  &:hover {
-    background: $color-text-light;
-  }
-}
-
-// ========== RESPONSIVE ==========
-@media (max-width: 768px) {
-  .sidebar {
-    &.expanded {
-      width: $sidebar-width-collapsed;
-      padding: $spacing-md $spacing-sm;
-
-      .sidebar-title {
-        opacity: 0;
-        visibility: hidden;
-        height: 0;
-        margin: 0;
-      }
-
-      .label {
-        opacity: 0;
-        visibility: hidden;
-        display: none;
-      }
-
-      .sidebar-menu li a {
-        justify-content: center;
       }
     }
   }
