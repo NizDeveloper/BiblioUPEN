@@ -1,0 +1,250 @@
+$color-primary: #2d8659;
+$color-primary-dark: #1e5a3f;
+$color-secondary: #f5f5f5;
+$color-text: #333;
+$color-text-light: #666;
+$color-border: #e0e0e0;
+$color-white: #fff;
+
+$spacing-xs: 5px;
+$spacing-sm: 10px;
+$spacing-md: 20px;
+$spacing-lg: 30px;
+$spacing-xl: 40px;
+
+$sidebar-width-expanded: 270px;
+$sidebar-width-collapsed: 80px;
+$header-height: 80px;
+
+$border-radius: 6px;
+$box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+$box-shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: $header-height;
+  height: calc(100vh - #{$header-height});
+  background-color: $color-white;
+  border-right: 1px solid $color-border;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-shadow: $box-shadow;
+  transition: width 0.3s ease, padding 0.3s ease;
+  z-index: 50;
+
+  // ========== ESTADO EXPANDIDO ==========
+  &.expanded {
+    width: $sidebar-width-expanded;
+    padding: $spacing-lg $spacing-md;
+
+    .sidebar-title {
+      opacity: 1;
+      visibility: visible;
+      height: auto;
+      margin-bottom: $spacing-lg;
+    }
+
+    .label {
+      opacity: 1;
+      visibility: visible;
+      display: inline;
+      margin-left: $spacing-md;
+    }
+
+    .toggle-btn {
+      margin-bottom: $spacing-lg;
+      width: 100%;
+    }
+  }
+
+  // ========== ESTADO CONTRAÍDO ==========
+  &.collapsed {
+    width: $sidebar-width-collapsed;
+    padding: $spacing-md $spacing-sm;
+
+    .sidebar-title {
+      opacity: 0;
+      visibility: hidden;
+      height: 0;
+      margin: 0;
+    }
+
+    .label {
+      opacity: 0;
+      visibility: hidden;
+      display: none;
+      margin-left: 0;
+    }
+
+    .toggle-btn {
+      margin-bottom: $spacing-md;
+      width: 100%;
+    }
+
+    .sidebar-menu li a {
+      justify-content: center;
+      padding: $spacing-md;
+    }
+  }
+
+  // ========== HEADER DEL SIDEBAR ==========
+  .sidebar-header {
+    margin-bottom: $spacing-lg;
+  }
+
+  .sidebar-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: $color-primary;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0 $spacing-sm;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    margin: 0;
+  }
+
+  // ========== BOTÓN TOGGLE ==========
+  .toggle-btn {
+    background-color: $color-primary;
+    color: $color-white;
+    border: none;
+    height: 45px;
+    border-radius: $border-radius;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+
+    &:hover {
+      background-color: $color-primary-dark;
+      transform: scale(1.05);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+
+  // ========== MENÚ ==========
+  .sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+
+    li {
+      margin: 0;
+
+      a {
+        display: flex;
+        align-items: center;
+        gap: $spacing-md;
+        padding: $spacing-md $spacing-sm;
+        color: $color-text;
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: 500;
+        border-left: 4px solid transparent;
+        border-radius: $border-radius;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        position: relative;
+
+        .icon {
+          width: 30px;
+          height: 30px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+
+          svg {
+            width: 100%;
+            height: 100%;
+            transition: fill 0.3s ease;
+          }
+        }
+
+        .label {
+          transition: all 0.3s ease;
+          white-space: nowrap;
+        }
+
+        // ========== HOVER ==========
+        &:hover {
+          background-color: $color-secondary;
+          color: $color-primary;
+          border-left-color: $color-primary;
+
+          .icon svg {
+            fill: $color-primary;
+          }
+        }
+
+        // ========== ACTIVE ==========
+        &.active {
+          background-color: rgba($color-primary, 0.1);
+          color: $color-primary;
+          border-left-color: $color-primary;
+          font-weight: 600;
+
+          .icon svg {
+            fill: $color-primary;
+          }
+        }
+      }
+    }
+  }
+}
+
+// ========== SCROLLBAR PERSONALIZADA ==========
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: $color-border;
+  border-radius: 3px;
+
+  &:hover {
+    background: $color-text-light;
+  }
+}
+
+// ========== RESPONSIVE ==========
+@media (max-width: 768px) {
+  .sidebar {
+    &.expanded {
+      width: $sidebar-width-collapsed;
+      padding: $spacing-md $spacing-sm;
+
+      .sidebar-title {
+        opacity: 0;
+        visibility: hidden;
+        height: 0;
+        margin: 0;
+      }
+
+      .label {
+        opacity: 0;
+        visibility: hidden;
+        display: none;
+      }
+
+      .sidebar-menu li a {
+        justify-content: center;
+      }
+    }
+  }
+}

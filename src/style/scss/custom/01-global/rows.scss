@@ -24,6 +24,12 @@
   margin-right: auto;
 }
 
+.limiter-extra-large{
+  max-width: 1600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 
 /*
 * Padding Top Row
@@ -37,7 +43,11 @@
 }
 
 .padding-top-large {
-padding-top: 70px;
+  padding-top: 70px;
+}
+
+.padding-top-extra-large {
+  padding-top: 100px;
 }
 
 
@@ -54,6 +64,10 @@ padding-top: 70px;
 
 .padding-bottom-large {
   padding-bottom: 70px;
+}
+
+.padding-bottom-extra-large {
+  padding-bottom: 100px;
 }
 
 /*
@@ -75,5 +89,12 @@ padding-top: 70px;
   .container-fluid.global{
     padding-left: 90px;
     padding-right: 90px;
+  }
+}
+
+@include media-breakpoint-up(xl){
+  .container-fluid.global{
+    padding-left: 120px;
+    padding-right: 120px;
   }
 }
