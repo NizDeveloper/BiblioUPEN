@@ -3,7 +3,7 @@ import logo from '../../assets/images/illustrations/biblioteca-logo2.png'
 export default function Header() {
   return (
   <header className="header">
-    <div className="limiter-large">
+    <div className="limiter-extra-large">
       <div className='header-content'>
         <div className='logo'>
           <a href="/">

@@ -299,12 +299,12 @@ $cyans: (
 
 // scss-docs-start theme-color-variables
 $primary:       #1d7b3b !default;
-$secondary:     #4e525a !default;
+$secondary:     #2d8659 !default;
 $success:       $green !default;
 $info:          $cyan !default;
-$warning:       $yellow !default;
+$warning:       #FF6B6B !default;
 $danger:        $red !default;
-$light:         $gray-100 !default;
+$light:         #4e525a !default;
 $dark:          $gray-900 !default;
 $tertiary:      #93a2b5 !default;
 // scss-docs-end theme-color-variables
@@ -475,7 +475,7 @@ $icon-link-icon-transform:    translate3d(.25em, 0, 0) !default;
 //
 // Style p element.
 
-$paragraph-margin-bottom:   1rem !default;
+$paragraph-margin-bottom:   0 !default;
 
 
 // Grid breakpoints

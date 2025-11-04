@@ -4,12 +4,12 @@ import Sidebar from './Sidebar';
 export default function Layout({ children }) {
   return (
     <div className="layout">
-      <Header />
+      <Header/>
 
       <div className="layout-container">
-        <Sidebar />
+        <Sidebar/>
 
-        <main className="main-content limiter-large">
+        <main className="main-content limiter-extra-large">
           {children}
         </main>
       </div>
