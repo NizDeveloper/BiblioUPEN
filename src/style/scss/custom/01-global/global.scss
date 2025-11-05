@@ -29,3 +29,22 @@ ul{
   transition: all 0.3s;
   font: 14px;
 }
+
+.btn-add{
+  background: linear-gradient(135deg, #2E9D4F 0%, #1B7B3B 100%);
+  color: $white;
+  border: none;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s;
+  box-shadow: 0 4px 12px rgba(46, 157, 79, 0.3s);
+
+  &:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(46, 157, 79, 0.4);
+  }
+}
