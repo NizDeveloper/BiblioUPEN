@@ -98,6 +98,12 @@ $header-height: 80px;
     transition: all 0.3s ease;
     flex-shrink: 0;
 
+    svg{
+      width: 30px;
+      height: auto;
+      fill: $white;
+    }
+
     &:hover{
       background-color: shade-color($secondary, 20%);
       transform: scale(1.05);

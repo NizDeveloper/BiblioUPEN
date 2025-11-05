@@ -9,20 +9,16 @@ function Loans() {
 
         <div className="control-section">
           <div className="search-box">
-            <input type="text" />
+            <input className="form-" type="text" placeholder="Buscar por Nombre..." id="searchInput"/>
           </div>
 
-          <button id="add-button">
-            <div className="icon">
-              +
-            </div>
-
-            <span className="text"> Añadir Prestamo</span>
+          <button className="btn-add" id="add-button">
+            + Añadir Prestamo
           </button>
         </div>
 
         <div className="table-section">
-          <h2 className="table-title">Listado de Estudiantes</h2>
+          <h2 className="table-title">Listado de Prestamos</h2>
 
           <LoanList/>
         </div>
