@@ -4,6 +4,8 @@ import { ReactComponent as HomeIcon } from "../../assets/images/icons/home.svg";
 import { ReactComponent as BookIcon } from "../../assets/images/icons/book.svg";
 import { ReactComponent as StudentIcon } from "../../assets/images/icons/person.svg";
 import { ReactComponent as LoanIcon } from "../../assets/images/icons/loan.svg";
+import { ReactComponent as ArrowLeftIcon } from "../../assets/images/icons/arrow_left.svg";
+import { ReactComponent as ArrowRightIcon } from "../../assets/images/icons/arrow_right.svg";
 
 export default function Sidebar() {
   const [isExpanded, setIsExpanded] = useState(() => {
@@ -36,7 +38,7 @@ export default function Sidebar() {
           className="toggle-btn"
           onClick={() => setIsExpanded(!isExpanded)}
         >
-          {isExpanded ? '◀' : '▶'}
+          {isExpanded ? <ArrowLeftIcon/> : <ArrowRightIcon/>}
         </button>
       </div>
 

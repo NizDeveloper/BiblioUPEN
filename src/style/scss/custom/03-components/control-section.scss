@@ -1,0 +1,31 @@
+.control-section{
+  background-color: $white;
+  padding: 20px;
+  margin-top: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+
+  .search-box{
+    width: 100%;
+    flex: 1;
+
+    input{
+      width: 100%;
+      padding: 10px 16px;
+      border: 2px solid #E0E0E0;
+      border-radius: 6px;
+      font-size: 14px;
+      transition: all 0.3s;
+
+      &:focus{
+        outline: none;
+        border-color: $primary;
+        box-shadow: 0 0 0 3px rgba(46, 157, 79, 0.1);
+      }
+    }
+  }
+}
