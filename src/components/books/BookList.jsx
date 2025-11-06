@@ -1,45 +1,48 @@
-function BookList(){
+
+import Table from '../common/Table';
+
+
+
+function BookList({books, onEdit, onDelete}){
+  const columns =[
+    {key: 'id', label: 'ID'},
+    {key: 'title', label: 'TITULO' },
+    {key: 'author', label: 'AUTOR'},
+    {key: 'isbn', label: 'ISBN'},
+    {key: 'total_copies', label:'COPIAS TOTALES'},
+    {key: 'available_copies', label: 'DISPONIBLES'},
+    {
+      key: 'status',
+      label: 'ESTADO',
+      render: (status) => (
+        <span className={`badge badge-${status.toLowerCase()}`}>
+          {status}
+        </span>
+      )
+    }
+  ];
+
+
+  const actions = [
+    {
+      label: 'Editar',
+      type: 'primary',
+      onClick: onEdit
+    },
+    {
+      label: 'Historial',
+      type: 'secondary',
+      onClick: (book) => console.log('Historial:', book)
+    },
+    {
+      label: 'Eliminar',
+      type: 'danger',
+      onClick: onDelete
+    }
+  ];
+  
   return(
-    <div className="card shadow-sm">
-      <div className="card-body">
-        <table class="table table-hover table-bordered">
-          <thead>
-            <tr>
-              <th scope="col">Titulo</th>
-              <th scope="col">Autor</th>
-              <th scope="col">ISBN</th>
-              <th scope="col">Copias totales</th>
-              <th scope="col">Diponibles</th>
-              <th scope="col">Estado</th>
-              <th scope="col">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">SAS</th>
-              <td>Mark</td>
-              <td>9780274839</td>
-              <td>8</td>
-              <td>6</td>
-              <td>disponible</td>
-              <td>Editar, historial, eliminar</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>John</td>
-              <td>Doe</td>
-              <td>@social</td>
-            </tr>
-          </tbody>   
-        </table>
-      </div>
-    </div>
+    <Table columns={columns} data={books} actions={actions}/>
   );
 }
 

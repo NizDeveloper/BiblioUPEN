@@ -1,31 +1,80 @@
+import { useState, useEffect } from 'react';
 import Layout from '../components/common/Layout';
 import BookList from '../components/books/BookList';
+import ControlSection from '../components/common/ControlSection';
+import { bookService } from '../services/bookService';
 
 function Books() {
+  const [books, setBooks] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadBooks = async () => {
+      const data = await bookService.getAll();
+      console.log('Datos recibidos: ', data);
+      setBooks (data || []);
+      setLoading(false);  
+    };
+    loadBooks();
+  }, []);
+
+  const filteredBooks = books.filter(book => {
+    if (!book) return false;
+    const title = book.title ? book.title.toLowerCase() : '';
+    const id = book.id ? String(book.id).toLowerCase() : '';
+    return title.includes(searchTerm.toLowerCase()) || id.includes(searchTerm.toLowerCase());
+  });
+
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleAddBook = () => {
+    console.log('Agregar nuevo libro');
+  };
+
+  const handleEdit = (book) => {
+    console.log('Editar:', book);
+  };
+
+  const handleDelete = async (book) => {
+    if (window.confirm(`¿Estás seguro de eliminar "${book.title}"?`)) {
+      try {
+        await bookService.delete(book.id);
+        // Actualiza el estado solo si la eliminación fue exitosa
+        setBooks(books.filter(b => b.id !== book.id));
+        console.log('Libro eliminado correctamente');
+      } catch (error) {
+        console.error('Error al eliminar:', error);
+        alert('Error al eliminar el libro');
+      }
+    }
+  };
+
+  if (loading) return <Layout><div>Cargando...</div></Layout>
+
+
   return (
     <Layout>
-      <div className="book-content padding-top-medium padding-bottom-medium">
-        <h1 className="text-2xl font-bold text-primary "> Inventario de libros</h1>
-        <p className="text-muted mb-4">
-          Gestiona el catálogo completo de libros de la biblioteca
-        </p>
-        <div className="card p-3 mb-4 shadow-sm border-0" >
-          <div className="d-flex align-items-center gap-3">
-            <input
-              type="text"
-              placeholder="Buscar por título, autor o ISBN..."
-              className="form-control"
-            />
-            <button className="btn btn-primary">
-              + Nuevo Libro
-            </button>
-          </div>
+      <div className='book-page'>
+        <h1>Inventario de libros</h1>
+        <ControlSection
+          placeholder={"Buscar por titulo o id..."}
+          messageButton={"+ Nuevo libro"}
+          onSearch={handleSearch}
+          onAdd={handleAddBook}
+          searchValue={searchTerm}
+        />
 
-        </div>
+        <div className='table-section'>
+          <h2 className='table-title'>Catalogo de libros ({books.length})</h2>
 
-        <div>
-          <h5 className="text-success fw-bold mb-3">Listado de Libros</h5>
-        <BookList/>
+          <BookList
+            books={filteredBooks}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
         </div>
       </div>
     </Layout>

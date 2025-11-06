@@ -9,6 +9,10 @@ const studentsRoutes = require('./routes/students');
 
 app.use('/api/students', studentsRoutes);
 
+const booksRoutes = require('./routes/books');
+
+app.use('/api/books', booksRoutes);
+
 app.get('/api/test', (req, res) => {
   res.json({ message: 'API working correctly' });
 });
