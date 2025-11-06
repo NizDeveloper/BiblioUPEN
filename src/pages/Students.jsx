@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import Layout from '../components/common/Layout';
-import StudentList from "../components/students/StudentList"
 import ControlSection from '../components/common/ControlSection';
+import Modal from '../components/common/Modal';
+import StudentList from "../components/students/StudentList"
+import FormStudent from '../components/students/StudentForm';
 import { studentService } from '../services/studentService';
 
 function Students(){
@@ -67,6 +69,12 @@ function Students(){
             onDelete={handleDelete}
           />
         </div>
+
+        <Modal
+          title="Add Student">
+
+          <FormStudent/>
+        </Modal>
       </div>
     </Layout>
   );

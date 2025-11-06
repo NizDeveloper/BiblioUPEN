@@ -5,11 +5,11 @@ function ControlSection({ placeholder, messageButton }) {
         <input className="form-" type="text" placeholder={placeholder} id="searchInput"/>
       </div>
 
-      <button className="btn-add" id="add-button">
+      <button className="btn-add" id="add-button" data-bs-toggle="modal" data-bs-target="#modal">
         { messageButton }
       </button>
     </div>
-  );  
+  );
 }
 
 export default ControlSection;
