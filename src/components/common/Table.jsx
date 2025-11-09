@@ -20,16 +20,22 @@ function Table({ columns, data, actions }){
               ))}
               {actions && (
                 <td className="actions-cell">
-                  {actions.map((action, i) => (
-                    <button
-                      key={i}
-                      className={`action-btn action-${action.type}`}
-                      onClick={() => action.onClick(row)}
-                      title={action.label}
-                    >
-                      {action.label}
-                    </button>
-                  ))}
+                  {actions.map((action, i) => {
+                    // Evalúa si label es una función o string
+                    const label = typeof action.label === 'function' ? action.label(row) : action.label;
+                    const type = typeof action.type === 'function' ? action.type(row) : action.type;
+                    
+                    return (
+                      <button
+                        key={i}
+                        className={`action-btn action-${type}`}
+                        onClick={() => action.onClick(row)}
+                        title={label}
+                      >
+                        {label}
+                      </button>
+                    );
+                  })}
                 </td>
               )}
             </tr>

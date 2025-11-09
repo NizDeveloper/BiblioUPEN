@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import {useState, useEffect} from 'react';
 
-function FormStudent({ onSubmit }) {
+function FormStudent({onSubmit, initialData = null}){
   const [formData, setFormData] = useState({
     enrollment: '',
     name: '',
@@ -10,29 +10,41 @@ function FormStudent({ onSubmit }) {
     status: 'Active'
   });
 
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    if(initialData){
+      setFormData(initialData);
+    }else{
+      setFormData({
+        enrollment: '',
+        name: '',
+        email: '',
+        phone: '',
+        career: '',
+        status: 'Active'
+      });
+    }
+    setError('');
+  }, [initialData]);
+
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
+    const {name, value} = e.target;
+    setFormData(prev=>({
       ...prev,
       [name]: value
     }));
+    setError('');
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit(formData);
-    setFormData({
-      enrollment: '',
-      name: '',
-      email: '',
-      phone: '',
-      career: '',
-      status: 'Active'
-    });
-  };
+  return(
+    <form>
+      {error && (
+        <div className="alert alert-danger" role="alert">
+          {error}
+        </div>
+      )}
 
-  return (
-    <form onSubmit={handleSubmit}>
       <div className="mb-3">
         <label htmlFor="enrollment" className="form-label">MATRÍCULA *</label>
         <input
@@ -43,6 +55,7 @@ function FormStudent({ onSubmit }) {
           placeholder="Ej: 2024001"
           value={formData.enrollment}
           onChange={handleInputChange}
+          disabled={initialData ? true : false}
           required
         />
       </div>

@@ -1,6 +1,6 @@
 import Table from '../common/Table';
 
-function StudentList({ students, onEdit, onDelete }){
+function StudentList({ students, onEdit, onDelete, studentToDelete, deleteConfirming }){
   const columns = [
     { key: 'enrollment', label: 'MATRÍCULA' },
     { key: 'name', label: 'NOMBRE' },
@@ -30,7 +30,12 @@ function StudentList({ students, onEdit, onDelete }){
       onClick: (student) => console.log('Historial:', student)
     },
     {
-      label: 'Eliminar',
+      label: (student) => {
+        if (deleteConfirming && studentToDelete?.enrollment === student.enrollment) {
+          return '¿Confirmar?';
+        }
+        return 'Eliminar';
+      },
       type: 'danger',
       onClick: onDelete
     }
