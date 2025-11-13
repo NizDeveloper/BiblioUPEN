@@ -2,14 +2,14 @@ import Table from '../common/Table';
 
 function StudentList({ students, onEdit, onDelete, studentToDelete, deleteConfirming }){
   const columns = [
-    { key: 'enrollment', label: 'MATRÍCULA' },
-    { key: 'name', label: 'NOMBRE' },
-    { key: 'email', label: 'CORREO' },
-    { key: 'phone', label: 'TELÉFONO' },
-    { key: 'career', label: 'CARRERA' },
+    { key: 'enrollment', label: 'ENROLLMENT' },
+    { key: 'name', label: 'NAME' },
+    { key: 'email', label: 'MAIL' },
+    { key: 'phone', label: 'PHONE' },
+    { key: 'career', label: 'CARRER' },
     {
       key: 'status',
-      label: 'ESTADO',
+      label: 'STATUS',
       render: (status) => (
         <span className={`badge badge-${status.toLowerCase()}`}>
           {status}
@@ -20,21 +20,21 @@ function StudentList({ students, onEdit, onDelete, studentToDelete, deleteConfir
 
   const actions = [
     {
-      label: 'Editar',
+      label: 'Edit',
       type: 'primary',
       onClick: onEdit
     },
     {
-      label: 'Historial',
+      label: 'History',
       type: 'secondary',
-      onClick: (student) => console.log('Historial:', student)
+      onClick: (student) => console.log('History:', student)
     },
     {
       label: (student) => {
         if (deleteConfirming && studentToDelete?.enrollment === student.enrollment) {
-          return '¿Confirmar?';
+          return '¿Confirm?';
         }
-        return 'Eliminar';
+        return 'Delete';
       },
       type: 'danger',
       onClick: onDelete

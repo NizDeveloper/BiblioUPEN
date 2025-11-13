@@ -47,7 +47,7 @@ function Modal({title, children, onSave, onClose}){
         modal.hide();
       }
     }catch(err){
-      setError(err.message || 'Error al guardar');
+      setError(err.message || 'Error saving');
       setLoading(false);
     }
   };
@@ -89,7 +89,7 @@ function Modal({title, children, onSave, onClose}){
               onClick={handleSave}
               disabled={loading}
             >
-              {loading ? 'Guardando...' : 'Add'}
+              {loading ? 'Saving...' : 'Add'}
             </button>
           </div>
         </div>

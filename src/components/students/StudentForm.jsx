@@ -46,7 +46,7 @@ function FormStudent({onSubmit, initialData = null}){
       )}
 
       <div className="mb-3">
-        <label htmlFor="enrollment" className="form-label">MATRÍCULA *</label>
+        <label htmlFor="enrollment" className="form-label">ENROLLMENT *</label>
         <input
           type="text"
           className="form-control"
@@ -61,7 +61,7 @@ function FormStudent({onSubmit, initialData = null}){
       </div>
 
       <div className="mb-3">
-        <label htmlFor="name" className="form-label">NOMBRE COMPLETO *</label>
+        <label htmlFor="name" className="form-label">FULL NAME *</label>
         <input
           type="text"
           className="form-control"
@@ -75,13 +75,13 @@ function FormStudent({onSubmit, initialData = null}){
       </div>
 
       <div className="mb-3">
-        <label htmlFor="email" className="form-label">CORREO ELECTRÓNICO *</label>
+        <label htmlFor="email" className="form-label">EMAIL *</label>
         <input
           type="email"
           className="form-control"
           id="email"
           name="email"
-          placeholder="Ej: estudiante@upnay.edu.mx"
+          placeholder="student@upnay.edu.mx"
           value={formData.email}
           onChange={handleInputChange}
           required
@@ -89,13 +89,13 @@ function FormStudent({onSubmit, initialData = null}){
       </div>
 
       <div className="mb-3">
-        <label htmlFor="phone" className="form-label">TELÉFONO *</label>
+        <label htmlFor="phone" className="form-label">PHONE NUMBER *</label>
         <input
           type="tel"
           className="form-control"
           id="phone"
           name="phone"
-          placeholder="Ej: +52 123 456 7890"
+          placeholder="+52 123 456 7890"
           value={formData.phone}
           onChange={handleInputChange}
           required
@@ -103,7 +103,7 @@ function FormStudent({onSubmit, initialData = null}){
       </div>
 
       <div className="mb-3">
-        <label htmlFor="career" className="form-label">CARRERA/GRADO *</label>
+        <label htmlFor="career" className="form-label">CAREER *</label>
         <select
           className="form-select"
           id="career"
@@ -112,7 +112,7 @@ function FormStudent({onSubmit, initialData = null}){
           onChange={handleInputChange}
           required
         >
-          <option value="">Selecciona una carrera</option>
+          <option value="">Select a career</option>
           <option value="ing-sistemas">Ingeniería en Sistemas</option>
           <option value="ing-industrial">Ingeniería Industrial</option>
           <option value="administracion">Administración</option>
@@ -121,7 +121,7 @@ function FormStudent({onSubmit, initialData = null}){
       </div>
 
       <div className="mb-3">
-        <label htmlFor="status" className="form-label">ESTADO *</label>
+        <label htmlFor="status" className="form-label">STATUS *</label>
         <select
           className="form-select"
           id="status"
@@ -130,9 +130,9 @@ function FormStudent({onSubmit, initialData = null}){
           onChange={handleInputChange}
           required
         >
-          <option value="Active">Activo</option>
-          <option value="Inactive">Inactivo</option>
-          <option value="Suspended">Suspendido</option>
+          <option value="Active">Active</option>
+          <option value="Inactive">Inactive</option>
+          <option value="Suspended">Suspended</option>
         </select>
       </div>
     </form>

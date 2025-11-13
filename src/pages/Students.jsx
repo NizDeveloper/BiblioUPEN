@@ -21,14 +21,13 @@ function Students(){
     loadStudents();
   }, []);
 
-  const loadStudents = async () => {
+  const loadStudents = async() => {
     const data = await studentService.getAll();
-    console.log('Datos recibidos:', data);
     setStudents(data || []);
     setLoading(false);
   };
 
-  const filteredStudents = students.filter(student=>{
+  const filteredStudents = students.filter(student => {
     if(!student)return false;
     const name = student.name ? student.name.toLowerCase() : '';
     const enrollment = student.enrollment ? student.enrollment.toLowerCase() : '';
@@ -38,12 +37,7 @@ function Students(){
     const status = student.status ? student.status.toLowerCase() : '';
     const searchLower = searchTerm.toLowerCase();
     
-    return name.includes(searchLower) || 
-           enrollment.includes(searchLower) || 
-           email.includes(searchLower) || 
-           phone.includes(searchLower) || 
-           career.includes(searchLower) || 
-           status.includes(searchLower);
+    return name.includes(searchLower) || enrollment.includes(searchLower) || email.includes(searchLower) || phone.includes(searchLower) || career.includes(searchLower) || status.includes(searchLower);
   });
 
   const handleSearch = (e) => {
@@ -72,14 +66,14 @@ function Students(){
     }
   };
 
-  const handleSubmitStudent = async (formData) => {
+  const handleSubmitStudent = async(formData) => {
     try{
       if(isEditing){
         await studentService.update(studentToEdit.enrollment, formData);
         await loadStudents();
         
         setToast({
-          message: 'Estudiante actualizado exitosamente',
+          message: 'Student successfully updated',
           type: 'success',
           duration: 3000
         });
@@ -88,7 +82,7 @@ function Students(){
         await loadStudents();
         
         setToast({
-          message: 'Estudiante agregado exitosamente',
+          message: 'Student successfully added',
           type: 'success',
           duration: 3000
         });
@@ -96,7 +90,7 @@ function Students(){
     }catch(error){
       console.error('Error:', error);
       setToast({
-        message: error.message || 'Error al guardar el estudiante',
+        message: error.message || 'Error saving student',
         type: 'error',
         duration: 4000
       });
@@ -119,7 +113,7 @@ function Students(){
     }, 5000);
   };
 
-  const performDelete = async (student) => {
+  const performDelete = async(student) => {
     try{
       await studentService.delete(student.enrollment);
       await loadStudents();
@@ -128,14 +122,14 @@ function Students(){
       setDeleteConfirming(false);
       
       setToast({
-        message: 'Estudiante eliminado exitosamente',
+        message: 'Student successfully removed',
         type: 'success',
         duration: 3000
       });
     }catch(error){
       console.error('Error:', error);
       setToast({
-        message: 'Error al eliminar el estudiante',
+        message: 'Error deleting student',
         type: 'error',
         duration: 4000
       });
@@ -144,23 +138,23 @@ function Students(){
     }
   };
 
-  if(loading)return <Layout><div>Cargando...</div></Layout>;
+  if(loading)return <Layout><div>Loading...</div></Layout>;
 
   return(
     <>
       <Layout>
         <div className="student-page">
-          <h1>Gestión de Estudiantes</h1>
+          <h1>Student Management</h1>
           <ControlSection
-            placeholder="Buscar por matrícula o nombre..."
-            messageButton="+ Nuevo Estudiante"
+            placeholder="Search by enrollment plate or name..."
+            messageButton="+ New Student"
             onSearch={handleSearch}
             onAdd={handleAddStudent}
             searchValue={searchTerm}
           />
 
           <div className="table-section">
-            <h2 className="table-title">Lista de estudiantes ({students.length})</h2>
+            <h2 className="table-title">List of students ({students.length})</h2>
 
             <StudentList
               students={filteredStudents}
@@ -172,7 +166,7 @@ function Students(){
           </div>
 
           <Modal
-            title={isEditing ? "Editar Estudiante" : "Agregar Nuevo Estudiante"}
+            title={isEditing ? "Edit Student" : "Add New Student"}
             onSave={handleSubmitStudent}
             onClose={() => {
               setIsEditing(false);

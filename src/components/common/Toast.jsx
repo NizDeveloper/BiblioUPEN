@@ -55,7 +55,7 @@ function Toast({ message, type = 'info', duration = 3000, onClose }) {
     >
       <div className="toast-header">
         <span className="toast-icon">{getIcon()}</span>
-        <strong className="me-auto">Notificación</strong>
+        <strong className="me-auto">Notification</strong>
         <button
           type="button"
           className="btn-close"

@@ -7,7 +7,7 @@ function Table({ columns, data, actions }){
             {columns.map((col, i) => (
               <th key={i}>{col.label}</th>
             ))}
-            {actions && <th>ACCIONES</th>}
+            {actions && <th>ACTIONS</th>}
           </tr>
         </thead>
         <tbody>
@@ -21,7 +21,6 @@ function Table({ columns, data, actions }){
               {actions && (
                 <td className="actions-cell">
                   {actions.map((action, i) => {
-                    // Evalúa si label es una función o string
                     const label = typeof action.label === 'function' ? action.label(row) : action.label;
                     const type = typeof action.type === 'function' ? action.type(row) : action.type;
                     
