@@ -1,29 +1,44 @@
 import { useState, useEffect } from 'react';
-import Layout from '../components/common/Layout';
-import BookList from '../components/books/BookList';
-import ControlSection from '../components/common/ControlSection';
 import { bookService } from '../services/bookService';
+import Layout from '../components/common/Layout';
+import ControlSection from '../components/common/ControlSection';
+import BookList from '../components/books/BookList';
+import FormBook from '../components/books/BookForm';
+import Modal from '../components/common/Modal';
+import ToastPortal from '../components/common/ToastPortal';
 
 function Books() {
   const [books, setBooks] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
+  const [bookToDelete, setBookToDelete] = useState(null);
+  const [deleteConfirming, setDeleteConfirming] = useState(false);
+  const [bookToEdit, setBookToEdit] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [toast, setToast] = useState(null);
+
 
   useEffect(() => {
-    const loadBooks = async () => {
-      const data = await bookService.getAll();
-      console.log('Datos recibidos: ', data);
-      setBooks (data || []);
-      setLoading(false);  
-    };
     loadBooks();
   }, []);
+
+  const loadBooks = async() => {
+    const data = await bookService.getAll();
+    console.log('Datos recibidos: ', data);
+    setBooks (data || []);
+    setLoading(false);
+  };
 
   const filteredBooks = books.filter(book => {
     if (!book) return false;
     const title = book.title ? book.title.toLowerCase() : '';
     const id = book.id ? String(book.id).toLowerCase() : '';
-    return title.includes(searchTerm.toLowerCase()) || id.includes(searchTerm.toLowerCase());
+    const author = book.author ? (book.author).toLowerCase() : '';
+    const isbn = book.isbn ? (book.isbn).toLowerCase() : '';
+    return title.includes(searchTerm.toLowerCase()) || 
+          id.includes(searchTerm.toLowerCase()) ||
+          author.includes(searchTerm.toLowerCase()) ||
+          isbn.includes(searchTerm.toLowerCase());
   });
 
   const handleSearch = (e) => {
@@ -31,53 +46,149 @@ function Books() {
   };
 
   const handleAddBook = () => {
-    console.log('Agregar nuevo libro');
-  };
+    setIsEditing(false);
+    setBookToEdit(null);
 
-  const handleEdit = (book) => {
-    console.log('Editar:', book);
-  };
-
-  const handleDelete = async (book) => {
-    if (window.confirm(`¿Estás seguro de eliminar "${book.title}"?`)) {
-      try {
-        await bookService.delete(book.id);
-        // Actualiza el estado solo si la eliminación fue exitosa
-        setBooks(books.filter(b => b.id !== book.id));
-        console.log('Libro eliminado correctamente');
-      } catch (error) {
-        console.error('Error al eliminar:', error);
-        alert('Error al eliminar el libro');
-      }
+    const modalElement = document.getElementById('modal');
+    if(modalElement){
+      const modal = new window.bootstrap.Modal(modalElement);
+      modal.show();
     }
   };
 
-  if (loading) return <Layout><div>Cargando...</div></Layout>
+  const handleEdit = (book) => {
+    setIsEditing(true);
+    setBookToEdit(book);
+
+    const modalElement = document.getElementById('modal');
+    if(modalElement){
+      const modal = new window.bootstrap.Modal(modalElement);
+      modal.show();
+    }
+  };
+
+  const handleSubmitBook = async (formData) => {
+    try{
+      if(isEditing){
+        await bookService.update(bookToEdit.id, formData);
+        await loadBooks();
+
+        setToast({
+          message: 'Libro actualizado exitosamente',
+          type: 'success',
+          duration: 3000
+        });
+      }else{
+        await bookService.create(formData);
+        await loadBooks();
+
+        setToast({
+          message: 'Libro agregado exitosamente',
+          type: 'success',
+          duration: 3000
+        });
+      }
+    }catch(error){
+      console.error('Error: ', error);
+      setToast({
+        message: error.message || 'Error al guardar el libro',
+        type: 'error',
+        duration: 4000
+      });
+      throw error;
+    }
+  };
+
+  const handleDelete = (book) => {
+    if(deleteConfirming && bookToDelete?.id === book.id){
+      performDelete(book);
+      return;
+    }
+
+    setBookToDelete(book);
+    setDeleteConfirming(true);
+
+    setTimeout(() => {
+      setDeleteConfirming(false);
+      setBookToDelete(null);
+    }, 5000);
+  };
+
+  const performDelete = async (book) => {
+    try{
+      await bookService.delete(book.id);
+      await loadBooks();
+
+      setBookToDelete(null);
+      setDeleteConfirming(false);
+
+      setToast({
+        message: 'Libro eliminado exitosamente',
+        type: 'success',
+        duration: 3000
+      });
+    }catch(error){
+      console.error('Error:', error);
+      setToast({
+        message: 'Error al eliminar el libro',
+        type: 'Error',
+        duration: 4000
+      });
+      setDeleteConfirming(false);
+      setBookToDelete(null);
+    }
+  };
+
+  if(loading)return <Layout><div>Cargando...</div></Layout>;
 
 
   return (
-    <Layout>
-      <div className='book-page'>
-        <h1>Inventario de libros</h1>
-        <ControlSection
-          placeholder={"Buscar por titulo o id..."}
-          messageButton={"+ Nuevo libro"}
-          onSearch={handleSearch}
-          onAdd={handleAddBook}
-          searchValue={searchTerm}
-        />
-
-        <div className='table-section'>
-          <h2 className='table-title'>Catalogo de libros ({books.length})</h2>
-
-          <BookList
-            books={filteredBooks}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
+    <>
+      <Layout>
+        <div className="Book-page">
+          <h1>Gestion de Libros</h1>
+          <ControlSection
+            placeholder="Buscar por id o titulo"
+            messageButton="+ Nuevo Libro"
+            onSearch={handleSearch}
+            onAdd={handleAddBook}
+            searchValue={searchTerm}
           />
+
+          <div className="table-section">
+            <h2 className='table-title'>Lista de libros ({books.length})</h2>
+            
+            <BookList 
+              books={filteredBooks}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+              bookToDelete={bookToDelete}
+              deleteConfirming={deleteConfirming}
+            />
+          </div>
+
+          <Modal
+            title={isEditing ? "Editar libro" : "Agregar Nuevo Libro"}
+            onSave={handleSubmitBook}
+            onClose={() => {
+              setIsEditing(false);
+              setBookToEdit(null);
+            }}>
+
+              <FormBook key={isEditing ? bookToEdit?.id : 'add'} onSubmit={handleSubmitBook} initialData={isEditing? bookToEdit : null}/>
+            </Modal>
         </div>
-      </div>
-    </Layout>
+      </Layout>
+      
+      {toast && (
+				<ToastPortal
+					message={toast.message}
+					type={toast.type}
+					duration={toast.duration}
+					onClose={() => setToast(null)}
+				/>
+			)}
+    </>
   );
 }
 

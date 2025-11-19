@@ -1,9 +1,6 @@
-
 import Table from '../common/Table';
 
-
-
-function BookList({books, onEdit, onDelete}){
+function BookList({books, onEdit, onDelete, bookToDelete, deleteConfirming}){
   const columns =[
     {key: 'id', label: 'ID'},
     {key: 'title', label: 'TITULO' },
@@ -35,7 +32,12 @@ function BookList({books, onEdit, onDelete}){
       onClick: (book) => console.log('Historial:', book)
     },
     {
-      label: 'Eliminar',
+      label: (book) => {
+        if(deleteConfirming && bookToDelete?.id === book.id) {
+          return '¿confirmar?';
+        }
+        return 'Eliminar';
+      },
       type: 'danger',
       onClick: onDelete
     }
