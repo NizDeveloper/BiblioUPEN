@@ -1,5 +1,5 @@
-import {useState, useEffect} from 'react';
-import {studentService} from '../services/studentService';
+import { useState, useEffect } from 'react';
+import { studentService } from '../services/studentService';
 import Layout from '../components/common/Layout';
 import ControlSection from '../components/common/ControlSection';
 import Modal from '../components/common/Modal';
@@ -36,7 +36,7 @@ function Students(){
     const career = student.career ? student.career.toLowerCase() : '';
     const status = student.status ? student.status.toLowerCase() : '';
     const searchLower = searchTerm.toLowerCase();
-    
+
     return name.includes(searchLower) || enrollment.includes(searchLower) || email.includes(searchLower) || phone.includes(searchLower) || career.includes(searchLower) || status.includes(searchLower);
   });
 
@@ -47,7 +47,7 @@ function Students(){
   const handleAddStudent = () => {
     setIsEditing(false);
     setStudentToEdit(null);
-    
+
     const modalElement = document.getElementById('modal');
     if(modalElement){
       const modal = new window.bootstrap.Modal(modalElement);
@@ -58,7 +58,7 @@ function Students(){
   const handleEdit = (student) => {
     setIsEditing(true);
     setStudentToEdit(student);
-    
+
     const modalElement = document.getElementById('modal');
     if(modalElement){
       const modal = new window.bootstrap.Modal(modalElement);
@@ -71,7 +71,7 @@ function Students(){
       if(isEditing){
         await studentService.update(studentToEdit.enrollment, formData);
         await loadStudents();
-        
+
         setToast({
           message: 'Student successfully updated',
           type: 'success',
@@ -80,7 +80,7 @@ function Students(){
       }else{
         await studentService.create(formData);
         await loadStudents();
-        
+
         setToast({
           message: 'Student successfully added',
           type: 'success',
@@ -117,10 +117,10 @@ function Students(){
     try{
       await studentService.delete(student.enrollment);
       await loadStudents();
-      
+
       setStudentToDelete(null);
       setDeleteConfirming(false);
-      
+
       setToast({
         message: 'Student successfully removed',
         type: 'success',

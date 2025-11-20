@@ -1,11 +1,11 @@
 const API_URL = 'http://localhost:3001/api/students';
 
 export const studentService = {
-  getAll: async () => {
-    try {
+  getAll: async() => {
+    try{
       const response = await fetch(API_URL);
       return await response.json();
-    } catch (error) {
+    }catch(error){
       console.error('Error:', error);
       return [];
     }
@@ -41,12 +41,12 @@ export const studentService = {
           'Content-Type': 'application/json',
         }
       });
-      
+
       if (!response.ok) {
         const error = await response.json();
         throw new Error(error.error || 'Error al eliminar estudiante');
       }
-      
+
       return await response.json();
     } catch (error) {
       console.error('Error:', error);
@@ -63,12 +63,12 @@ export const studentService = {
       },
       body: JSON.stringify(studentData)
     });
-    
+
     if(!response.ok){
       const error = await response.json();
       throw new Error(error.error || 'Error al actualizar estudiante');
     }
-    
+
     return await response.json();
   }catch(error){
     console.error('Error:', error);

@@ -31,7 +31,7 @@ function StudentList({ students, onEdit, onDelete, studentToDelete, deleteConfir
     },
     {
       label: (student) => {
-        if (deleteConfirming && studentToDelete?.enrollment === student.enrollment) {
+        if(deleteConfirming && studentToDelete?.enrollment === student.enrollment) {
           return '¿Confirm?';
         }
         return 'Delete';

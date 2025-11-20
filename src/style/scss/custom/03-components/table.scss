@@ -70,6 +70,11 @@
               background-color: #f8d7da;
               color: #721c24;
             }
+
+            &.badge-returned {
+              background-color: #d1ecf1;
+              color: #0c5460;
+            }
           }
 
           &.actions-cell {
