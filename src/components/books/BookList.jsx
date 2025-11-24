@@ -1,16 +1,16 @@
 import Table from '../common/Table';
 
+
 function BookList({books, onEdit, onDelete, bookToDelete, deleteConfirming}){
-  const columns =[
-    {key: 'id', label: 'ID'},
-    {key: 'title', label: 'TITULO' },
-    {key: 'author', label: 'AUTOR'},
+  const columns = [
+    {key: 'title', label: 'TITLE'},
+    {key: 'author', label: 'AUTHOR'},
     {key: 'isbn', label: 'ISBN'},
-    {key: 'total_copies', label:'COPIAS TOTALES'},
-    {key: 'available_copies', label: 'DISPONIBLES'},
+    {key: 'total_copies', label: 'TOTAL_COPIES'},
+    {key: 'available_copies', label: 'AVAILABLE_COPIES'},
     {
       key: 'status',
-      label: 'ESTADO',
+      label: 'STATUS',
       render: (status) => (
         <span className={`badge badge-${status.toLowerCase()}`}>
           {status}
@@ -19,32 +19,31 @@ function BookList({books, onEdit, onDelete, bookToDelete, deleteConfirming}){
     }
   ];
 
-
   const actions = [
     {
-      label: 'Editar',
+      label : 'Edit',
       type: 'primary',
       onClick: onEdit
     },
     {
-      label: 'Historial',
+      label: 'History',
       type: 'secondary',
-      onClick: (book) => console.log('Historial:', book)
+      onclick: (book) => console.log('History:', book)
     },
     {
       label: (book) => {
-        if(deleteConfirming && bookToDelete?.id === book.id) {
-          return '¿confirmar?';
+        if (deleteConfirming && bookToDelete?.isbn === book.isbn) {
+          return '¿Confirm?';
         }
-        return 'Eliminar';
+        return 'Delete';
       },
       type: 'danger',
       onClick: onDelete
     }
   ];
-  
+
   return(
-    <Table columns={columns} data={books} actions={actions}/>
+    <Table columns={columns} data={books} actions={actions} />
   );
 }
 

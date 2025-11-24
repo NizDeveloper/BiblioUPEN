@@ -1,24 +1,22 @@
 import { useState, useEffect } from "react";
 
-function FormBook({ onSubmit, initialData = null}) {
-	const [formData, setFormData] = useState({
-		id: '',
-		title: '',
-		author: '',
-		isbn: '',
-		total_copies: '',
-		available_copies: '',
-		status: 'Active'
-	});
+function FormBook({onSubmit, initialData = null}) {
+  const [formData, setFormData] = useState({
+    title: '',
+    author: '',
+    isbn: '',
+    total_copies: '',
+    available_copies: '',
+    status: 'Active'
+  });
 
-	const [error, setError] = useState('');
+  const [error, setError] = useState('');
 
 	useEffect(() => {
 		if(initialData){
 			setFormData(initialData);
 		}else{
 			setFormData({
-				id: '',
 				title: '',
 				author: '',
 				isbn: '',
@@ -48,56 +46,41 @@ function FormBook({ onSubmit, initialData = null}) {
 			)}
 
 			<div className="mb-3">
-				<label htmlFor="id" className="form-label">LIBRO_ID *</label>
+				<label htmlFor="title" className="form-label">TITLE *</label>
 				<input
-					type="text"
-					className="form-control"
-					id="id"
-					name="id"
-					placeholder="Ej: 763658"
-					value={formData.id}
-					onChange={handleInputChange}
-					disabled={initialData ? true : false}
-					required
-				/>
-			</div>
-
-			<div className="mb-3">
-				<label htmlFor="title" className="form-label">TITULO DEL LIBRO *</label>
-				<input 
 					type="text"
 					className="form-control"
 					id="title"
 					name="title"
-					placeholder="Ej: DÉSPUES"
+					placeholder="Ej: Déspues"
 					value={formData.title}
 					onChange={handleInputChange}
 					required
 				/>
 			</div>
 
-			<div className="nm-3">
-				<label htmlFor="author" className="form-label">NOMBRE DEL AUTOR *</label>
-				<input 
+			<div className="mb-3">
+				<label htmlFor="author" className="form-label">AUTHOR *</label>
+				<input
 					type="text"
-					className="form-control"					
+					className="form-control"
 					id="author"
 					name="author"
-					placeholder="Ej: Stephen king"
+					placeholder="Ej: STEPHEN KING"
 					value={formData.author}
 					onChange={handleInputChange}
-					required	
+					required
 				/>
 			</div>
 
 			<div className="mb-3">
 				<label htmlFor="isbn" className="form-label">ISBN *</label>
-				<input 
+				<input
 					type="text"
 					className="form-control"
 					id="isbn"
 					name="isbn"
-					placeholder="Ej: 874892948"
+					placeholder="864326796"
 					value={formData.isbn}
 					onChange={handleInputChange}
 					required
@@ -105,7 +88,7 @@ function FormBook({ onSubmit, initialData = null}) {
 			</div>
 
 			<div className="mb-3">
-				<label htmlFor="total_copies" className="form-label">COPIAS TOTALES *</label>
+				<label htmlFor="total_copies" className="form-label">TOTAL COPIES *</label>
 				<input
 					type="number"
 					className="form-control"
@@ -114,11 +97,11 @@ function FormBook({ onSubmit, initialData = null}) {
 					value={formData.total_copies}
 					onChange={handleInputChange}
 					required
-				/>
+					/>
 			</div>
-			
+
 			<div className="mb-3">
-				<label htmlFor="avialble_copies" className="form-label">COPIAS DISPONIBLES *</label>
+				<label htmlFor="available_copies" className="form-label">AVAILABLE COPIES *</label>
 				<input 
 					type="number"
 					className="form-control"
@@ -131,19 +114,19 @@ function FormBook({ onSubmit, initialData = null}) {
 			</div>
 
 			<div className="mb-3">
-        <label htmlFor="status" className="form-label">ESTADO *</label>
-        <select
+				<label htmlFor="status" className="form-label">STATUS *</label>
+				<select
 					className="form-select"
 					id="status"
 					name="status"
 					value={formData.status}
 					onChange={handleInputChange}
 					required
-        >
-        <option value="Active">Activo</option>
-    	<option value="Inactive">Inactivo</option>
-        <option value="Suspended">Suspendido</option>
-        </select>
+				>
+					<option value="Active">Active</option>
+					<option value="Inactive">Inactive</option>
+					<option value="Suspended">Suspended</option>
+				</select>
 			</div>
 		</form>
 	);
