@@ -22,14 +22,8 @@ function Table({ columns, data, actions }) {
                 {actions && (
                   <td className="actions-cell">
                     {actions.map((action, i) => {
-                      const label =
-                        typeof action.label === "function"
-                          ? action.label(row)
-                          : action.label;
-                      const type =
-                        typeof action.type === "function"
-                          ? action.type(row)
-                          : action.type;
+                      const label = typeof action.label === "function" ? action.label(row) : action.label;
+                      const type = typeof action.type === "function" ? action.type(row) : action.type;
 
                       return (
                         <button
@@ -49,7 +43,7 @@ function Table({ columns, data, actions }) {
           ) : (
             <tr>
               <td colSpan={columns.length + (actions ? 1 : 0)}>
-                No hay datos disponibles
+                No data available
               </td>
             </tr>
           )}

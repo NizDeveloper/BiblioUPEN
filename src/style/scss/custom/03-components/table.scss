@@ -75,6 +75,11 @@
               background-color: #d1ecf1;
               color: #0c5460;
             }
+
+            &.badge-danger {
+              background-color: #f8d7da;
+              color: #721c24;
+            }
           }
 
           &.actions-cell {

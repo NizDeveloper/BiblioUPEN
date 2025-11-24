@@ -33,7 +33,7 @@ export const loanService = {
 
       if(!response.ok){
         const error = await response.json();
-        throw new Error(error.error || 'Error al crear préstamo');
+        throw new Error(error.error || 'Error creating loan');
       }
 
       return await response.json();
@@ -54,7 +54,29 @@ export const loanService = {
 
       if(!response.ok){
         const error = await response.json();
-        throw new Error(error.error || 'Error al devolver libro');
+        throw new Error(error.error || 'Error returning book');
+      }
+
+      return await response.json();
+    }catch(error){
+      console.error('Error:', error);
+      throw error;
+    }
+  },
+
+  extendDueDate: async(loanId, newDueDate)=>{
+    try{
+      const response = await fetch(`${API_URL}/${loanId}/extend`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({due_date: newDueDate})
+      });
+
+      if(!response.ok){
+        const error = await response.json();
+        throw new Error(error.error || 'Error when extending deadline');
       }
 
       return await response.json();
