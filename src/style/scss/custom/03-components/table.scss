@@ -52,12 +52,12 @@
             }
 
             &.badge-inactive {
-              background-color: #f8d7da;
               color: #721c24;
-            }
-
-            &.badge-suspended {
               background-color: #e2e3e5;
+            }
+            
+            &.badge-suspended {
+              background-color: #f8d7da;
               color: #383d41;
             }
 
@@ -79,6 +79,16 @@
             &.badge-danger {
               background-color: #f8d7da;
               color: #721c24;
+            }
+            
+            &.badge-out-of-stock {
+              background-color: #ffc107;
+              color: #000;
+            }
+
+            &.badge-discontinued {
+              background-color: #6c757d;
+              color: #fff;
             }
           }
 

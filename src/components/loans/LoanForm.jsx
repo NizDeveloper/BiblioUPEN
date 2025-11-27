@@ -27,6 +27,12 @@ const FormLoan = forwardRef(({onSubmit, initialData = null}, ref) => {
       if (!formData.student_enrollment || !formData.book_id || !formData.due_date) {
         throw new Error('Registration and book ID are required');
       }
+
+      const today = new Date().toISOString().split('T')[0];
+      if (formData.due_date < today) {
+        throw new Error('Due date cannot be in the past');
+      }
+
       return {
         student_enrollment: formData.student_enrollment,
         book_id: parseInt(formData.book_id),
@@ -43,6 +49,10 @@ const FormLoan = forwardRef(({onSubmit, initialData = null}, ref) => {
   const [bookSearch, setBookSearch] = useState('');
   const [showStudentList, setShowStudentList] = useState(false);
   const [showBookList, setShowBookList] = useState(false);
+
+  const getMinDate = () => {
+    return new Date().toISOString().split('T')[0];
+  };
 
   useEffect(()=>{
     if(initialData){
@@ -200,6 +210,7 @@ const FormLoan = forwardRef(({onSubmit, initialData = null}, ref) => {
           )}
         </div>
       </div>
+
       <div className="mb-3">
         <label htmlFor="due_date" className="form-label">DUE DATE *</label>
         <input
@@ -209,6 +220,7 @@ const FormLoan = forwardRef(({onSubmit, initialData = null}, ref) => {
           name="due_date"
           value={formData.due_date}
           onChange={handleInputChange}
+          min={getMinDate()}
           required
         />
       </div>

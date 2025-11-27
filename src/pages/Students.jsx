@@ -6,6 +6,7 @@ import Modal from '../components/common/Modal';
 import StudentList from "../components/students/StudentList"
 import FormStudent from '../components/students/StudentForm';
 import ToastPortal from '../components/common/ToastPortal';
+import StudentHistoryModal from '../components/students/StudentHistoryModal';
 
 function Students(){
   const [students, setStudents] = useState([]);
@@ -16,6 +17,7 @@ function Students(){
   const [studentToEdit, setStudentToEdit] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [toast, setToast] = useState(null);
+  const [selectedStudent, setSelectedStudent] = useState(null);
 
   useEffect(() => {
     loadStudents();
@@ -138,6 +140,10 @@ function Students(){
     }
   };
 
+  const handleHistory = (student) => {
+    setSelectedStudent(student);
+  };
+
   if(loading)return <Layout><div>Loading...</div></Layout>;
 
   return(
@@ -160,6 +166,7 @@ function Students(){
               students={filteredStudents}
               onEdit={handleEdit}
               onDelete={handleDelete}
+              onHistory={handleHistory}
               studentToDelete={studentToDelete}
               deleteConfirming={deleteConfirming}
             />
@@ -177,6 +184,14 @@ function Students(){
           </Modal>
         </div>
       </Layout>
+
+      {selectedStudent && (
+        <StudentHistoryModal
+          enrollment={selectedStudent.enrollment}
+          studentName={selectedStudent.name}
+          onClose={() => setSelectedStudent(null)}
+        />
+      )}
 
       {toast && (
         <ToastPortal

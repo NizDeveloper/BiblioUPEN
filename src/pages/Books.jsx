@@ -6,6 +6,7 @@ import BookList from '../components/books/BookList';
 import FormBook from '../components/books/BookForm';
 import Modal from '../components/common/Modal';
 import ToastPortal from '../components/common/ToastPortal';
+import BookHistoryModal from '../components/books/BookHistoryModal';
 
 function Books(){
 	const [books, setBooks] = useState([]);
@@ -16,6 +17,7 @@ function Books(){
 	const [bookToEdit, setBookToEdit] = useState(null);
 	const [isEditing, setIsEditing] = useState(false);
 	const [toast, setToast] = useState(null);
+	const [selectedBook, setSelectedBook] = useState(null);
 
 	useEffect(() => {
 		loadBooks();
@@ -29,7 +31,7 @@ function Books(){
 
 	const filteredBooks = books.filter(book => {
 		if(!book) return false;
-		const title = book.title ? book.title.toLowerCase(): ''; 
+		const title = book.title ? book.title.toLowerCase(): '';
 		const author = book.author ? book.author.toLowerCase(): '';
 		const isbn = book.isbn ? book.isbn.toLowerCase(): '';
 		const total_copies = book.total_copies ? book.total_copies.toString() : '';
@@ -66,6 +68,10 @@ function Books(){
 		}
 	};
 
+	const handleHistory = (book) => {
+		setSelectedBook(book);
+	};
+
 	const handleSubmitBook = async(formData) => {
 		try{
 			if(isEditing){
@@ -78,7 +84,14 @@ function Books(){
 					duration: 3000
 				});
 			}else{
-				await bookService.create(formData);
+				const createData = {
+					title: formData.title,
+					author: formData.author,
+					isbn: formData.isbn,
+					total_copies: formData.total_copies,
+					available_copies: formData.total_copies
+				};
+				await bookService.create(createData);
 				await loadBooks();
 
 				setToast({
@@ -120,7 +133,7 @@ function Books(){
 
 			setBookToDelete(null);
 			setDeleteConfirming(false);
-	
+
 			setToast({
 				message: 'Book successfully removed',
 				type: 'success',
@@ -128,24 +141,34 @@ function Books(){
 			});
 		}catch(error){
 			console.error('Error:', error);
-			setToast({
-				message: 'Error deleting book',
-				type: 'error',
-				duration: 4000
-			});
+
+			if(error.message.includes('active loan')) {
+				setToast({
+					message: error.message,
+					type: 'warning',
+					duration: 4000
+				});
+			} else {
+				setToast({
+					message: error.message || 'Error deleting book',
+					type: 'error',
+					duration: 4000
+				});
+			}
+
 			setDeleteConfirming(false);
 			setBookToDelete(null);
 		}
 	};
 
-	if(loading)return <Layout><div>Loading...</div></Layout>;
-
+	if(loading) return <Layout><div>Loading...</div></Layout>;
 
 	return(
 		<>
 			<Layout>
 				<div className='book-page'>
 					<h1>Book Management</h1>
+
 					<ControlSection
 						placeholder="Search by isbn or title..."
 						messageButton="+ New Book"
@@ -153,7 +176,7 @@ function Books(){
 						onAdd={handleAddBook}
 						searchValue={searchTerm}
 					/>
-					
+
 					<div className="table-section">
 						<h2 className="table-title">List of books ({books.length})</h2>
 
@@ -161,6 +184,7 @@ function Books(){
 							books={filteredBooks}
 							onEdit={handleEdit}
 							onDelete={handleDelete}
+							onHistory={handleHistory}
 							bookToDelete={bookToDelete}
 							deleteConfirming={deleteConfirming}
 						/>
@@ -174,10 +198,18 @@ function Books(){
 							setBookToEdit(null);
 						}}>
 
-							<FormBook key={isEditing ? bookToEdit?.isbn : 'add'} onSubmit={handleSubmitBook} initialData={isEditing ? bookToEdit : null}/>
-						</Modal>
+						<FormBook key={isEditing ? bookToEdit?.isbn : 'add'} onSubmit={handleSubmitBook} initialData={isEditing ? bookToEdit : null}/>
+					</Modal>
 				</div>
 			</Layout>
+
+			{selectedBook && (
+				<BookHistoryModal
+					bookId={selectedBook.id}
+					bookTitle={selectedBook.title}
+					onClose={() => setSelectedBook(null)}
+				/>
+			)}
 
 			{toast && (
 				<ToastPortal

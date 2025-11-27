@@ -1,21 +1,33 @@
 import Table from '../common/Table';
 
-
-function BookList({books, onEdit, onDelete, bookToDelete, deleteConfirming}){
+function BookList({books, onEdit, onDelete, onHistory, bookToDelete, deleteConfirming}){
   const columns = [
     {key: 'title', label: 'TITLE'},
     {key: 'author', label: 'AUTHOR'},
     {key: 'isbn', label: 'ISBN'},
-    {key: 'total_copies', label: 'TOTAL_COPIES'},
-    {key: 'available_copies', label: 'AVAILABLE_COPIES'},
+    {key: 'total_copies', label: 'TOTAL COPIES'},
+    {key: 'available_copies', label: 'AVAILABLE COPIES'},
     {
       key: 'status',
       label: 'STATUS',
-      render: (status) => (
-        <span className={`badge badge-${status.toLowerCase()}`}>
-          {status}
-        </span>
-      )
+      render: (_, book) => {
+        let status = 'Available';
+        let statusClass = 'badge-available';
+        
+        if(book.is_discontinued){
+          status = 'Discontinued';
+          statusClass = 'badge-discontinued';
+        }else if(book.available_copies === 0){
+          status = 'Out of stock';
+          statusClass = 'badge-out-of-stock';
+        }
+        
+        return (
+          <span className={`badge ${statusClass}`}>
+            {status}
+          </span>
+        );
+      }
     }
   ];
 
@@ -28,12 +40,12 @@ function BookList({books, onEdit, onDelete, bookToDelete, deleteConfirming}){
     {
       label: 'History',
       type: 'secondary',
-      onclick: (book) => console.log('History:', book)
+      onClick: onHistory
     },
     {
       label: (book) => {
         if (deleteConfirming && bookToDelete?.isbn === book.isbn) {
-          return '¿Confirm?';
+          return 'Confirm?';
         }
         return 'Delete';
       },

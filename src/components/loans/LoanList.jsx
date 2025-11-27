@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import Table from '../common/Table';
 
-function LoanList({loans, onReturn, onExtend}){
+function LoanList({loans, onReturn, onExtend, onDelete, loanToDelete, deleteConfirming}){
   const [loanToReturn, setLoanToReturn] = useState(null);
   const [confirmingReturn, setConfirmingReturn] = useState(false);
   const [extendingLoan, setExtendingLoan] = useState(null);
@@ -129,6 +129,16 @@ function LoanList({loans, onReturn, onExtend}){
         }
       },
       hidden: (loan) => loan.status !== 'Active' && loan.status !== 'Overdue'
+    },
+    {
+      label: (loan) => {
+        if(deleteConfirming && loanToDelete?.id === loan.id){
+          return 'Confirm?';
+        }
+        return 'Delete';
+      },
+      type: 'danger',
+      onClick: (loan) => onDelete(loan)
     }
   ];
 

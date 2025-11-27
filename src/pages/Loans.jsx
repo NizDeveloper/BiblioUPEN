@@ -13,6 +13,8 @@ function Loans(){
   const [filterStatus, setFilterStatus] = useState('all');
   const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState(null);
+  const [loanToDelete, setLoanToDelete] = useState(null);
+  const [deleteConfirming, setDeleteConfirming] = useState(false);
   const formLoanRef = useRef(null);
 
   useEffect(()=>{
@@ -147,6 +149,46 @@ function Loans(){
     }
   };
 
+  const handleDelete = (loan)=>{
+    if(deleteConfirming && loanToDelete?.id === loan.id){
+      performDelete(loan);
+      return;
+    }
+
+    setLoanToDelete(loan);
+    setDeleteConfirming(true);
+
+    setTimeout(()=>{
+      setDeleteConfirming(false);
+      setLoanToDelete(null);
+    }, 5000);
+  };
+
+  const performDelete = async(loan)=>{
+    try{
+      await loanService.delete(loan.id);
+      await loadLoans();
+
+      setLoanToDelete(null);
+      setDeleteConfirming(false);
+
+      setToast({
+        message: 'Loan successfully deleted',
+        type: 'success',
+        duration: 3000
+      });
+    }catch(error){
+      console.error('Error:', error);
+      setToast({
+        message: error.message || 'Error deleting loan',
+        type: 'error',
+        duration: 4000
+      });
+      setDeleteConfirming(false);
+      setLoanToDelete(null);
+    }
+  };
+
   const activeCount = loans.filter(l => l.status === 'Active').length;
   const returnedCount = loans.filter(l => l.status === 'Returned').length;
   const overdueCount = loans.filter(l => l.status === 'Overdue').length;
@@ -187,7 +229,14 @@ function Loans(){
 
           <div className="table-section">
             <h2 className="table-title">Loans ({filteredLoans.length})</h2>
-            <LoanList loans={filteredLoans} onReturn={handleReturn} onExtend={handleExtend}/>
+            <LoanList 
+              loans={filteredLoans} 
+              onReturn={handleReturn} 
+              onExtend={handleExtend}
+              onDelete={handleDelete}
+              loanToDelete={loanToDelete}
+              deleteConfirming={deleteConfirming}
+            />
           </div>
 
           <Modal title="Create New Loan" onSave={handleSubmitLoan} onClose={handleCloseModal}>

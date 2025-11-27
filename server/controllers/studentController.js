@@ -17,7 +17,7 @@ exports.create = async(req, res) => {
     const {enrollment, name, email, phone, career, status} = req.body;
 
     if(!enrollment || !name || !email || !phone || !career || !status){
-      return res.status(400).json({error: 'Todos los campos son requeridos'});
+      return res.status(400).json({error: 'All fields are required'});
     }
 
     const conn = await pool.getConnection();
@@ -25,7 +25,7 @@ exports.create = async(req, res) => {
     const existing = await conn.query('SELECT * FROM students WHERE enrollment = ?', [enrollment]);
     if(existing.length > 0){
       conn.release();
-      return res.status(400).json({error: 'La matrícula ya existe'});
+      return res.status(400).json({error: 'Enrollment already exists'});
     }
 
     const result = await conn.query(
@@ -36,12 +36,12 @@ exports.create = async(req, res) => {
     conn.release();
 
     res.status(201).json({
-      message: 'Estudiante creado exitosamente',
+      message: 'Student successfully created',
       student: {enrollment, name, email, phone, career, status}
     });
   }catch(error){
     console.error(error);
-    res.status(500).json({error: 'Error creando estudiante'});
+    res.status(500).json({error: 'Error creating student'});
   }
 };
 
@@ -51,11 +51,11 @@ exports.update = async(req, res) => {
     const {name, email, phone, career, status} = req.body;
 
     if(!enrollment){
-      return res.status(400).json({error: 'Matrícula requerida'});
+      return res.status(400).json({error: 'Enrollment required'});
     }
 
     if(!name || !email || !phone || !career || !status){
-      return res.status(400).json({error: 'Todos los campos son requeridos'});
+      return res.status(400).json({error: 'All fields are required'});
     }
 
     const conn = await pool.getConnection();
@@ -63,7 +63,7 @@ exports.update = async(req, res) => {
     const existing = await conn.query('SELECT * FROM students WHERE enrollment = ?', [enrollment]);
     if(existing.length === 0){
       conn.release();
-      return res.status(404).json({error: 'Estudiante no encontrado'});
+      return res.status(404).json({error: 'Student not found'});
     }
 
     await conn.query(
@@ -74,12 +74,12 @@ exports.update = async(req, res) => {
     conn.release();
 
     res.json({
-      message: 'Estudiante actualizado exitosamente',
+      message: 'Student successfully updated',
       student: {enrollment, name, email, phone, career, status}
     });
   }catch(error){
     console.error(error);
-    res.status(500).json({error: 'Error actualizando estudiante'});
+    res.status(500).json({error: 'Error updating student'});
   }
 };
 
@@ -88,7 +88,7 @@ exports.delete = async(req, res) => {
     const {enrollment} = req.params;
 
     if(!enrollment){
-      return res.status(400).json({error: 'Matrícula requerida'});
+      return res.status(400).json({error: 'Enrollment required'});
     }
 
     const conn = await pool.getConnection();
@@ -96,19 +96,34 @@ exports.delete = async(req, res) => {
     const existing = await conn.query('SELECT * FROM students WHERE enrollment = ?', [enrollment]);
     if(existing.length === 0){
       conn.release();
-      return res.status(404).json({error: 'Estudiante no encontrado'});
+      return res.status(404).json({error: 'Student not found'});
     }
 
+    const activeLoans = await conn.query(
+      'SELECT COUNT(*) as count FROM loans WHERE student_enrollment = ? AND (status = "Active" OR status = "Overdue")',
+      [enrollment]
+    );
+
+    const activeLoansCount = Number(activeLoans[0].count);
+    
+    if(activeLoansCount > 0){
+      conn.release();
+      return res.status(400).json({
+        error: `Cannot delete student. There are ${activeLoansCount} active loan(s). Please return all books first.`
+      });
+    }
+
+    await conn.query('DELETE FROM loans WHERE student_enrollment = ?', [enrollment]);
     await conn.query('DELETE FROM students WHERE enrollment = ?', [enrollment]);
 
     conn.release();
 
     res.json({
-      message: 'Estudiante eliminado exitosamente',
+      message: 'Student successfully removed',
       enrollment
     });
   }catch(error){
     console.error(error);
-    res.status(500).json({error: 'Error eliminando estudiante'});
+    res.status(500).json({error: 'Error deleting student'});
   }
 };

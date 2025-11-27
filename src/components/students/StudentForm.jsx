@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react';
 
-function FormStudent({onSubmit, initialData = null}){
+function StudentForm({onSubmit, initialData = null}){
   const [formData, setFormData] = useState({
     enrollment: '',
     name: '',
@@ -37,8 +37,19 @@ function FormStudent({onSubmit, initialData = null}){
     setError('');
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    if(!formData.enrollment || !formData.name || !formData.email || !formData.phone || !formData.career || !formData.status){
+      setError('All fields are required');
+      return;
+    }
+
+    onSubmit(formData);
+  };
+
   return(
-    <form>
+    <form onSubmit={handleSubmit}>
       {error && (
         <div className="alert alert-danger" role="alert">
           {error}
@@ -52,9 +63,13 @@ function FormStudent({onSubmit, initialData = null}){
           className="form-control"
           id="enrollment"
           name="enrollment"
-          placeholder="Ej: 2024001"
+          placeholder="2024001"
           value={formData.enrollment}
-          onChange={handleInputChange}
+          onChange={(e) => {
+            const value = e.target.value.replace(/\D/g, '');
+            handleInputChange({target: {name: 'enrollment', value}});
+          }}
+          maxLength="20"
           disabled={initialData ? true : false}
           required
         />
@@ -67,9 +82,10 @@ function FormStudent({onSubmit, initialData = null}){
           className="form-control"
           id="name"
           name="name"
-          placeholder="Ej: Juan Pérez García"
+          placeholder="Juan Pérez García"
           value={formData.name}
           onChange={handleInputChange}
+          maxLength="100"
           required
         />
       </div>
@@ -84,6 +100,7 @@ function FormStudent({onSubmit, initialData = null}){
           placeholder="student@upnay.edu.mx"
           value={formData.email}
           onChange={handleInputChange}
+          maxLength="100"
           required
         />
       </div>
@@ -91,13 +108,17 @@ function FormStudent({onSubmit, initialData = null}){
       <div className="mb-3">
         <label htmlFor="phone" className="form-label">PHONE NUMBER *</label>
         <input
-          type="tel"
+          type="text"
           className="form-control"
           id="phone"
           name="phone"
-          placeholder="+52 123 456 7890"
+          placeholder="3121234567"
           value={formData.phone}
-          onChange={handleInputChange}
+          onChange={(e) => {
+            const value = e.target.value.replace(/\D/g, '');
+            handleInputChange({target: {name: 'phone', value}});
+          }}
+          maxLength="20"
           required
         />
       </div>
@@ -113,10 +134,15 @@ function FormStudent({onSubmit, initialData = null}){
           required
         >
           <option value="">Select a career</option>
-          <option value="ing-sistemas">Ingeniería en Sistemas</option>
-          <option value="ing-industrial">Ingeniería Industrial</option>
-          <option value="administracion">Administración</option>
-          <option value="contabilidad">Contabilidad</option>
+          <option value="IAGRO">Inegeniería en Agrotecnologia</option>
+          <option value="IAGB">Ingeniería en Agrobiotecnología</option>
+          <option value="IPA">Ingeniería en Producción Animal</option>
+          <option value="ISEC">Ingeniería en Sistemas Embebidos Computacionales</option>
+          <option value="ISOFT">Ingeniería en Software</option>
+          <option value="ITIID">Ingeniería en Tecnologías de la Información e Innovación Digital</option>
+          <option value="LNA">Licenciatura en Administración</option>
+          <option value="LNM">Llicanciatura en Negocios y Mercadotecnia</option>
+          <option value="LMC">Licenciatura en Medico Cirujano</option>
         </select>
       </div>
 
@@ -139,4 +165,4 @@ function FormStudent({onSubmit, initialData = null}){
   );
 }
 
-export default FormStudent;
+export default StudentForm;

@@ -38,30 +38,6 @@ exports.getAll = async(req, res) => {
   }
 };
 
-exports.getByStudent = async(req, res) => {
-  try{
-    const {enrollment} = req.params;
-
-    if(!enrollment){
-      return res.status(400).json({error: 'Enrollment required'});
-    }
-
-    const conn = await pool.getConnection();
-    const result = await conn.query(`
-      SELECT l.*, b.title, b.author, b.isbn
-      FROM loans l
-      LEFT JOIN books b ON l.book_id = b.id
-      WHERE l.student_enrollment = ?
-      ORDER BY l.loan_date DESC
-    `, [enrollment]);
-    conn.release();
-    res.json(result);
-  }catch(error){
-    console.error(error);
-    res.status(500).json({error: 'Error fetching student loans'});
-  }
-};
-
 exports.create = async(req, res) => {
   try{
     const {student_enrollment, book_id, due_date} = req.body;
@@ -76,6 +52,11 @@ exports.create = async(req, res) => {
     if(student.length === 0){
       conn.release();
       return res.status(404).json({error: 'Student not found'});
+    }
+
+    if(student[0].status !== 'Active'){
+      conn.release();
+      return res.status(400).json({error: `Student status is ${student[0].status}. Only active students can make loans.`});
     }
 
     const book = await conn.query('SELECT * FROM books WHERE id = ?', [book_id]);
@@ -182,5 +163,89 @@ exports.extendDueDate = async(req, res) => {
   }catch(error){
     console.error(error);
     res.status(500).json({error: 'Error extending date'});
+  }
+};
+
+exports.delete = async(req, res) => {
+  try{
+    const {id} = req.params;
+
+    if(!id){
+      return res.status(400).json({error: 'Loan ID required'});
+    }
+
+    const conn = await pool.getConnection();
+
+    const loan = await conn.query('SELECT * FROM loans WHERE id = ?', [id]);
+    if(loan.length === 0){
+      conn.release();
+      return res.status(404).json({error: 'Loan not found'});
+    }
+
+    if(loan[0].status === 'Active' || loan[0].status === 'Overdue'){
+      await conn.query(
+        'UPDATE books SET available_copies = available_copies + 1 WHERE id = ?',
+        [loan[0].book_id]
+      );
+    }
+
+    await conn.query('DELETE FROM loans WHERE id = ?', [id]);
+    conn.release();
+
+    res.json({
+      message: 'Loan successfully deleted',
+      id
+    });
+  }catch(error){
+    console.error(error);
+    res.status(500).json({error: 'Error deleting loan'});
+  }
+};
+
+exports.getByStudent = async(req, res) => {
+  try{
+    const {enrollment} = req.params;
+
+    if(!enrollment){
+      return res.status(400).json({error: 'Enrollment required'});
+    }
+
+    const conn = await pool.getConnection();
+    const result = await conn.query(`
+      SELECT l.*, b.title, b.author, b.isbn
+      FROM loans l
+      LEFT JOIN books b ON l.book_id = b.id
+      WHERE l.student_enrollment = ?
+      ORDER BY l.loan_date DESC
+    `, [enrollment]);
+    conn.release();
+    res.json(result);
+  }catch(error){
+    console.error(error);
+    res.status(500).json({error: 'Error fetching student loans'});
+  }
+};
+
+exports.getByBook = async(req, res) => {
+  try{
+    const {bookId} = req.params;
+
+    if(!bookId){
+      return res.status(400).json({error: 'Book ID required'});
+    }
+
+    const conn = await pool.getConnection();
+    const result = await conn.query(`
+      SELECT l.*, s.name as student_name
+      FROM loans l
+      LEFT JOIN students s ON l.student_enrollment = s.enrollment
+      WHERE l.book_id = ?
+      ORDER BY l.loan_date DESC
+    `, [bookId]);
+    conn.release();
+    res.json(result);
+  }catch(error){
+    console.error(error);
+    res.status(500).json({error: 'Error fetching book loans'});
   }
 };

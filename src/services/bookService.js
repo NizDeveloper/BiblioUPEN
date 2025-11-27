@@ -16,7 +16,7 @@ export const bookService = {
 			const response = await fetch(URL_API, {
 				method: 'POST',
 				headers: {
-					'Content-Type': 'application/json', 
+					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify(bookData)
 			});
@@ -68,7 +68,7 @@ export const bookService = {
 				const error = await response.json();
 				throw new Error(error.error || 'ERROR UPDATING BOOK');
 			}
-			
+
 			return await response.json();
 		}catch(error){
 			console.error('Error:', error);

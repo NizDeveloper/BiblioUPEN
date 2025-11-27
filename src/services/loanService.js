@@ -1,7 +1,7 @@
 const API_URL = 'http://localhost:3001/api/loans';
 
 export const loanService = {
-  getAll: async()=>{
+  getAll: async() => {
     try{
       const response = await fetch(API_URL);
       return await response.json();
@@ -11,7 +11,7 @@ export const loanService = {
     }
   },
 
-  getByStudent: async(enrollment)=>{
+  getByStudent: async(enrollment) => {
     try{
       const response = await fetch(`${API_URL}/student/${enrollment}`);
       return await response.json();
@@ -21,7 +21,17 @@ export const loanService = {
     }
   },
 
-  create: async(loanData)=>{
+  getByBook: async(bookId) => {
+    try{
+      const response = await fetch(`${API_URL}/book/${bookId}`);
+      return await response.json();
+    }catch(error){
+      console.error('Error:', error);
+      return [];
+    }
+  },
+
+  create: async(loanData) => {
     try{
       const response = await fetch(API_URL, {
         method: 'POST',
@@ -43,7 +53,7 @@ export const loanService = {
     }
   },
 
-  returnBook: async(loanId)=>{
+  returnBook: async(loanId) => {
     try{
       const response = await fetch(`${API_URL}/${loanId}/return`, {
         method: 'PUT',
@@ -64,7 +74,7 @@ export const loanService = {
     }
   },
 
-  extendDueDate: async(loanId, newDueDate)=>{
+  extendDueDate: async(loanId, newDueDate) => {
     try{
       const response = await fetch(`${API_URL}/${loanId}/extend`, {
         method: 'PUT',
@@ -84,5 +94,26 @@ export const loanService = {
       console.error('Error:', error);
       throw error;
     }
-  }
+  },
+
+  delete: async(loanId)=>{
+    try{
+      const response = await fetch(`${API_URL}/${loanId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+
+      if(!response.ok){
+        const error = await response.json();
+        throw new Error(error.error || 'Error deleting loan');
+      }
+
+      return await response.json();
+    }catch(error){
+      console.error('Error:', error);
+      throw error;
+    }
+  },
 };
