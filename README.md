@@ -1,44 +1,44 @@
 # BiblioUPEN
 
-Sistema integral de gestión de préstamos y devoluciones de libros para la biblioteca universitaria de la UPEN.
+Comprehensive book lending and return management system for the UPEN university library.
 
-## Descripción del Proyecto
+## Project Description
 
-BiblioUPEN es una plataforma web diseñada para la administración de recursos bibliográficos universitarios. El sistema elimina las barreras de acceso actuales a través de una interfaz moderna e intuitiva, mejorando significativamente la experiencia de estudiantes y del personal bibliotecario.
+BiblioUPEN is a web platform designed for managing university bibliographic resources. The system eliminates current access barriers through a modern and intuitive interface, significantly improving the experience for both students and library staff.
 
-La plataforma permite gestionar el inventario de libros, controlar préstamos en tiempo real, registrar usuarios y generar reportes de actividad, todo en un único sistema centralizado.
+The platform allows managing book inventory, controlling loans in real-time, registering users, and generating activity reports, all in a single centralized system.
 
-## Características Principales
+## Main Features
 
-- **Gestión completa de inventario**: Registro, actualización y eliminación de libros
-- **Sistema de préstamos y devoluciones**: Automatización del proceso sin retención de credenciales
-- **Gestión de usuarios**: Registro de estudiantes con historial de préstamos
-- **Disponibilidad en tiempo real**: Control instantáneo de ejemplares disponibles
-- **Panel de reportes**: Dashboard con métricas e indicadores clave
-- **Búsqueda y filtrado avanzado**: Localización rápida de recursos
-- **Interfaz responsive**: Accesible desde dispositivos móviles y de escritorio
+- **Complete inventory management**: Registration, updating, and deletion of books
+- **Lending and return system**: Process automation without credential retention
+- **User management**: Student registration with loan history
+- **Real-time availability**: Instant control of available copies
+- **Reports dashboard**: Dashboard with key metrics and indicators
+- **Advanced search and filtering**: Quick resource location
+- **Responsive interface**: Accessible from mobile and desktop devices
 
-## Requisitos Previos
+## Prerequisites
 
-Antes de instalar el proyecto, asegúrate de tener instalado:
+Before installing the project, make sure you have installed:
 
-- **Node.js v20.13.0** (versión principal del proyecto)
-    - **Node.js v14.18.0** (Solo para los estilos)
-- **nvm** (Node Version Manager) para gestionar versiones
-- **MariaDB v10.5+** instalado y en ejecución
-- **npm** o **yarn** como gestor de paquetes
-- **Git** para control de versiones
+- **Node.js v20.13.0** (main project version)
+- **Node.js v14.18.0** (For styles only)
+- **nvm** (Node Version Manager) for managing versions
+- **MariaDB v10.5+** installed and running
+- **npm** or **yarn** as package manager
+- **Git** for version control
 
-## Instalación
+## Installation
 
-### 1. Clonar el repositorio
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/NizDeveloper/BiblioUPEN.git
 cd biblio-upen
 ```
 
-### 2. Configurar versión de Node.js con nvm
+### 2. Configure Node.js version with nvm
 
 ```bash
 nvm install 20.13.0 && nvm install 14.18.3
@@ -46,9 +46,9 @@ nvm use 20.13.0
 node --version
 ```
 
-### 3. Instalar dependencias
+### 3. Install dependencies
 
-El proyecto tiene 3 carpetas principales: “/”(raíz del proyecto) `server` para el backend y `src` para el frontend.
+The project has 3 main folders: "/" (project root), `server` for backend, and `src` for frontend.
 
 ```bash
 npm install
@@ -59,7 +59,7 @@ cd server/
 npm install
 ```
 
-Para los estilos css es necesario estar en el directorio de `src/style/` cambiar la versión de node a la v14.18.3
+For CSS styles, it's necessary to be in the `src/style/` directory and change the Node version to v14.18.3
 
 ```bash
 cd ../
@@ -68,76 +68,78 @@ nvm use v14.18.3
 npm install
 ```
 
-Instalar gulp en el proyecto:
+Install Gulp in the project:
 
 ```bash
 npm install --save-dev gulp@4.0.2 gulp-sass@4.1.1 gulp-minify-css gulp-rename gulp-concat gulp-sourcemaps node-sass
 ```
 
-Compilar estilos:
+Compile styles:
 
 ```bash
 gulp build
 ```
 
-## Manual de Uso
+## Usage Manual
 
-### Iniciar el frontend en desarrollo
+### Start frontend in development
 
-En otra terminal, navega a la carpeta raíz del proyecto y ejecuta el comando de inicio de React. 
+In another terminal, navigate to the project root folder and run the React start command.
 
 ```bash
 npm start
 ```
 
-### Iniciar el servidor backend
+### Start backend server
 
-Navega a la carpeta `/server` y ejecuta el comando (usando node v20):
+Navigate to the `/server` folder and run the command (using Node v20):
 
 ```bash
 node index.js
 ```
 
-### Acceder a la aplicación
+### Access the application
 
-Una vez ambos servidores estén corriendo, accede a la aplicación desde tu navegador en el puerto 3000 → http://localhost:3000/
+Once both servers are running, access the application from your browser on port 3000 → http://localhost:3000/
 
-## 📁 Estructura del Proyecto
+## 📁 Project Structure
 
-El proyecto está organizado en dos secciones principales:
+The project is organized in two main sections:
 
 **Backend (server/)**
 
-- `controllers/`: Lógica de negocio para libros, préstamos y estudiantes
-- `routes/`: Definición de endpoints de la API
-- Archivos de configuración de base de datos
+- `controllers/`: Business logic for books, loans, and students
+- `routes/`: API endpoint definitions
+- Database configuration files
 
 **Frontend (src/)**
 
-- `components/`: Componentes React reutilizables organizados por módulo (books, loans, students, common)
-- `pages/`: Páginas principales de la aplicación
-- `services/`: Servicios para comunicación con la API
-- `assets/`: Imágenes, iconos e ilustraciones
-- `style/scss/`: Estilos globales y modulares
+- `components/`: Reusable React components organized by module (books, loans, students, common)
+- `pages/`: Main application pages
+- `services/`: Services for API communication
+- `assets/`: Images, icons, and illustrations
+- `style/scss/`: Global and modular styles
 
-**Estructura general:**
+**General structure:**
 
-- Carpeta `public/`: Archivos estáticos
-- Carpeta `build/`: Compilado de producción (generado automáticamente)
-- Archivos de configuración: package.json, .env, .gitignore
+- `public/` folder: Static files
+- `build/` folder: Production build (auto-generated)
+- Configuration files: package.json, .env, .gitignore
 
 ---
 
-## Equipo de Desarrollo
+## Development Team
 
-**Institución**: UPEN
+**Institution**: UPEN
 
-**Profesores**: 
+**Professors**:
 
-- José Luis Delfín Márquez | Proyecto Integrador
-- 
+- José Luis Delfín Márquez | **Integrated Project**
+- Daniel Armando Ríos | **Object-Oriented Programming (OOP)**
+- Indhira Lizbeth Sánchez Arroyo | **Databases**
+- Katia Guadalupe Montes Palacios | **Software Quality Topics**
 
-**Estudiantes:**
+**Students**:
 
 - Abdiel Josue Pacheco Robles
 - Níz Gadiel Peña Mariscal
