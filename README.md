@@ -100,7 +100,7 @@ node index.js
 
 ### Access the application
 
-Once both servers are running, access the application from your browser on port 3000 → http://localhost:3000/
+Once both servers are running, access the application from your browser on port 3000 → http://localhost:3000/ 
 
 ## 📁 Project Structure
 
@@ -145,3 +145,5 @@ The project is organized in two main sections:
 - Níz Gadiel Peña Mariscal
 - Maria Jose Vazquez Romano
 - Diego Eduardo Velasco Basulto
+
+More information at: [Documentation - Notion](https://www.notion.so/Documentation-2b839f1006d0806ea25ac6fd3fa7a02f)
