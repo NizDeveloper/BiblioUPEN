@@ -1,6 +1,6 @@
-import {useState, useEffect} from 'react';
+import { useState, useEffect, useImperativeHandle, forwardRef } from 'react';
 
-function StudentForm({onSubmit, initialData = null}){
+const StudentForm = forwardRef(({ onSubmit, initialData = null }, ref) => {
   const [formData, setFormData] = useState({
     enrollment: '',
     name: '',
@@ -11,6 +11,20 @@ function StudentForm({onSubmit, initialData = null}){
   });
 
   const [error, setError] = useState('');
+
+  useImperativeHandle(ref, () => ({
+    resetForm: () => {
+      setFormData({
+        enrollment: '',
+        name: '',
+        email: '',
+        phone: '',
+        career: '',
+        status: 'Active'
+      });
+      setError('');
+    }
+  }));
 
   useEffect(() => {
     if(initialData){
@@ -39,7 +53,7 @@ function StudentForm({onSubmit, initialData = null}){
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     if(!formData.enrollment || !formData.name || !formData.email || !formData.phone || !formData.career || !formData.status){
       setError('All fields are required');
       return;
@@ -63,7 +77,7 @@ function StudentForm({onSubmit, initialData = null}){
           className="form-control"
           id="enrollment"
           name="enrollment"
-          placeholder="2024001"
+          placeholder="240010"
           value={formData.enrollment}
           onChange={(e) => {
             const value = e.target.value.replace(/\D/g, '');
@@ -163,6 +177,6 @@ function StudentForm({onSubmit, initialData = null}){
       </div>
     </form>
   );
-}
+});
 
 export default StudentForm;

@@ -1,4 +1,4 @@
-import { useState, useEffect} from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { bookService } from '../services/bookService';
 import Layout from '../components/common/Layout';
 import ControlSection from '../components/common/ControlSection';
@@ -18,6 +18,7 @@ function Books(){
 	const [isEditing, setIsEditing] = useState(false);
 	const [toast, setToast] = useState(null);
 	const [selectedBook, setSelectedBook] = useState(null);
+	const formBookRef = useRef(null);
 
 	useEffect(() => {
 		loadBooks();
@@ -196,9 +197,12 @@ function Books(){
 						onClose={() => {
 							setIsEditing(false);
 							setBookToEdit(null);
+							if(formBookRef.current) {
+								formBookRef.current.resetForm();
+							}
 						}}>
 
-						<FormBook key={isEditing ? bookToEdit?.isbn : 'add'} onSubmit={handleSubmitBook} initialData={isEditing ? bookToEdit : null}/>
+						<FormBook ref={formBookRef} key={isEditing ? bookToEdit?.isbn : 'add'} onSubmit={handleSubmitBook} initialData={isEditing ? bookToEdit : null}/>
 					</Modal>
 				</div>
 			</Layout>

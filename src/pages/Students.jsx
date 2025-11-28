@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { studentService } from '../services/studentService';
 import Layout from '../components/common/Layout';
 import ControlSection from '../components/common/ControlSection';
@@ -18,6 +18,7 @@ function Students(){
   const [isEditing, setIsEditing] = useState(false);
   const [toast, setToast] = useState(null);
   const [selectedStudent, setSelectedStudent] = useState(null);
+  const formStudentRef = useRef(null);
 
   useEffect(() => {
     loadStudents();
@@ -178,9 +179,12 @@ function Students(){
             onClose={() => {
               setIsEditing(false);
               setStudentToEdit(null);
+              if(formStudentRef.current) {
+                formStudentRef.current.resetForm();
+              }
             }}>
 
-            <FormStudent key={isEditing ? studentToEdit?.enrollment : 'add'} onSubmit={handleSubmitStudent} initialData={isEditing ? studentToEdit : null}/>
+            <FormStudent ref={formStudentRef} key={isEditing ? studentToEdit?.enrollment : 'add'} onSubmit={handleSubmitStudent} initialData={isEditing ? studentToEdit : null}/>
           </Modal>
         </div>
       </Layout>

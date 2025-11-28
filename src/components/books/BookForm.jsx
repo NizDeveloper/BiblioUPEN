@@ -1,22 +1,35 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useImperativeHandle, forwardRef } from "react";
 
-function BookForm({onSubmit, initialData = null}) {
-  const [formData, setFormData] = useState({
-    title: '',
-    author: '',
-    isbn: '',
-    total_copies: '',
-    available_copies: ''
-  });
+const BookForm = forwardRef(({ onSubmit, initialData = null }, ref) => {
+	const [formData, setFormData] = useState({
+		title: '',
+		author: '',
+		isbn: '',
+		total_copies: '',
+		available_copies: ''
+	});
+	const [error, setError] = useState('');
+	const [isEditing, setIsEditing] = useState(false);
 
-  const [error, setError] = useState('');
-  const [isEditing, setIsEditing] = useState(false);
+	useImperativeHandle(ref, () => ({
+		resetForm: () => {
+			setFormData({
+				title: '',
+				author: '',
+				isbn: '',
+				total_copies: '',
+				available_copies: ''
+			});
+			setIsEditing(false);
+			setError('');
+		}
+	}));
 
 	useEffect(() => {
-		if(initialData){
+		if (initialData) {
 			setFormData(initialData);
 			setIsEditing(true);
-		}else{
+		} else {
 			setFormData({
 				title: '',
 				author: '',
@@ -30,26 +43,26 @@ function BookForm({onSubmit, initialData = null}) {
 	}, [initialData]);
 
 	const handleInputChange = (e) => {
-		const {name, value} = e.target;
+		const { name, value } = e.target;
 
-		if(name === 'isbn'){
-			if(!/^\d*$/.test(value)){
+		if (name === 'isbn') {
+			if (!/^\d*$/.test(value)) {
 				return;
 			}
 		}
 
-		if(name === 'total_copies'){
+		if (name === 'total_copies') {
 			const numValue = parseInt(value);
-			if(value !== '' && numValue < 0){
+			if (value !== '' && numValue < 0) {
 				return;
 			}
-			if(isEditing){
-				setFormData(prev=>({
+			if (isEditing) {
+				setFormData(prev => ({
 					...prev,
 					[name]: value
 				}));
-			}else{
-				setFormData(prev=>({
+			} else {
+				setFormData(prev => ({
 					...prev,
 					total_copies: value,
 					available_copies: value
@@ -59,7 +72,7 @@ function BookForm({onSubmit, initialData = null}) {
 			return;
 		}
 
-		setFormData(prev=>({
+		setFormData(prev => ({
 			...prev,
 			[name]: value
 		}));
@@ -69,24 +82,24 @@ function BookForm({onSubmit, initialData = null}) {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
-		if(!formData.title || !formData.author || !formData.isbn || !formData.total_copies){
+		if (!formData.title || !formData.author || !formData.isbn || !formData.total_copies) {
 			setError('All fields are required');
 			return;
 		}
 
-		if(isEditing){
+		if (isEditing) {
 			const editData = {
 				title: formData.title,
 				author: formData.author,
 				total_copies: formData.total_copies
 			};
 			onSubmit(editData);
-		}else{
+		} else {
 			onSubmit(formData);
 		}
 	};
 
-	return(
+	return (
 		<form onSubmit={handleSubmit}>
 			{error && (
 				<div className="alert alert-danger" role="alert">
@@ -135,7 +148,7 @@ function BookForm({onSubmit, initialData = null}) {
 					value={formData.isbn}
 					onChange={(e) => {
 						const value = e.target.value.replace(/\D/g, '');
-						const event = {target: {name: 'isbn', value}};
+						const event = { target: { name: 'isbn', value } };
 						handleInputChange(event);
 					}}
 					maxLength="20"
@@ -177,6 +190,6 @@ function BookForm({onSubmit, initialData = null}) {
 			)}
 		</form>
 	);
-}
+});
 
 export default BookForm;
